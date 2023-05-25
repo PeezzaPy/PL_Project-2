@@ -1,5 +1,12 @@
 import java.util.Scanner;
 
+import javax.swing.ToolTipManager;
+
+import java.io.FileWriter;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 class Main {
     final static int MAX_INV = 100;
     static int pos, marker, choice;
@@ -14,6 +21,7 @@ class Main {
         boolean isRepeat;
 
         init(); 
+        retrieve();
         while(true){
             startMenu();
             do {
@@ -25,7 +33,7 @@ class Main {
                             isRepeat = false; 
                             break;
                     
-                    default: isRepeat = true; 
+                    default: isRepeat = false; 
                 }
             } while(isRepeat == true);
         }   
@@ -139,5 +147,76 @@ class Main {
     private static void punch(){
         Terminal.clearScreen();
         System.out.print("PUNCH FUNCTION");
+    }
+
+
+    public static void save(){
+        String inventory_fp = "C:\\Users\\ASUS\\Desktop\\PL_Project-2\\item\\inventory.txt";
+        try (FileWriter writer = new FileWriter(inventory_fp)){
+            for(Inventory product : my_inv){
+                if(product != null){
+                    writer.write(product.date_time + '\n');
+
+                    writer.write(product.product_name + '\n');
+
+                    writer.write(String.valueOf(product.orig_price));
+                    writer.write(' ');
+
+                    writer.write(String.valueOf(product.qty));
+                    writer.write(' ');
+
+                    writer.write(String.valueOf(product.total_price));
+                    writer.write(' ');
+
+                    writer.write(String.valueOf(product.retail_price));
+                    writer.write(' ');
+
+                    writer.write(String.valueOf(product.sales_qty));
+                    writer.write(' ');
+
+                    writer.write(String.valueOf(product.total_sales_amount));
+                    writer.write(' ');
+
+                    writer.write(String.valueOf(product.profit));
+                    writer.write("\n\n");
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private static void retrieve(){
+        Inventory my_product = new Inventory();
+        String inventory_fp = "C:\\Users\\ASUS\\Desktop\\PL_Project-2\\item\\inventory.txt";
+
+        try(BufferedReader reader = new BufferedReader(new FileReader(inventory_fp))){
+            String data_line;
+            
+            while((data_line = reader.readLine()) != null){
+                my_product.date_time = data_line;
+                my_product.product_name = reader.readLine();
+
+                String line = reader.readLine();
+                if(line != null){
+                    String[] product_data = line.split(" ");
+                    my_product.orig_price = Double.parseDouble(product_data[0]);
+                    my_product.qty = Integer.parseInt(product_data[1]);
+                    my_product.total_price = Double.parseDouble(product_data[2]);
+                    my_product.retail_price = Double.parseDouble(product_data[3]);
+                    my_product.sales_qty = Integer.parseInt(product_data[4]);
+                    my_product.total_sales_amount = Double.parseDouble(product_data[5]);
+                    my_product.profit = Double.parseDouble(product_data[6]);
+
+                    Admin.addProduct(my_product);
+                } 
+            }
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+
+
     }
 }

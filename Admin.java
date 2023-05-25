@@ -32,7 +32,7 @@ public class Admin {
 
             Terminal.clearScreen();
             if(Main.choice == 1){
-                System.out.println("=-=-= ADD PRODUCT =-=-=");
+                System.out.println("=-=-= ADD PRODUCT =-=-= \n");
                 System.out.print("Product Name: ");
                 console.nextLine();     // catching buffer
                 product.product_name = console.nextLine();
@@ -67,12 +67,14 @@ public class Admin {
         else {
             Main.marker++;
             Main.my_inv[Main.marker] = new Inventory(my_product.product_name, my_product.date_time, my_product.orig_price, my_product.qty, my_product.retail_price);
+            Main.save();
         }
     }   
 
 
     static void display(){
         Terminal.clearScreen();
+        console.nextLine();     // clear buffer
         if(Main.marker == -1){
             System.out.println("INVENTORY IS EMPTY \n");
             console.nextLine();
@@ -91,6 +93,7 @@ public class Admin {
             System.out.println("Profit: " + Main.my_inv[i].profit);
             System.out.println("\n");
         }
+        System.out.println("\n\nPress Enter to continue...");
         console.nextLine();
     }
 }
