@@ -1,6 +1,5 @@
 import java.util.Scanner;
 
-import javax.swing.ToolTipManager;
 
 import java.io.FileWriter;
 import java.io.BufferedReader;
@@ -178,7 +177,7 @@ class Main {
                     writer.write(' ');
 
                     writer.write(String.valueOf(product.profit));
-                    writer.write("\n\n");
+                    writer.write("\n");
                 }
             }
         } catch (IOException e) {
@@ -200,17 +199,22 @@ class Main {
 
                 String line = reader.readLine();
                 if(line != null){
-                    String[] product_data = line.split(" ");
-                    my_product.orig_price = Double.parseDouble(product_data[0]);
-                    my_product.qty = Integer.parseInt(product_data[1]);
-                    my_product.total_price = Double.parseDouble(product_data[2]);
-                    my_product.retail_price = Double.parseDouble(product_data[3]);
-                    my_product.sales_qty = Integer.parseInt(product_data[4]);
-                    my_product.total_sales_amount = Double.parseDouble(product_data[5]);
-                    my_product.profit = Double.parseDouble(product_data[6]);
+                    try {
+                        String[] product_data = line.split(" ");
+                        my_product.orig_price = Double.parseDouble(product_data[0]);
+                        my_product.qty = Integer.parseInt(product_data[1]);
+                        my_product.total_price = Double.parseDouble(product_data[2]);
+                        my_product.retail_price = Double.parseDouble(product_data[3]);
+                        my_product.sales_qty = Integer.parseInt(product_data[4]);
+                        my_product.total_sales_amount = Double.parseDouble(product_data[5]);
+                        my_product.profit = Double.parseDouble(product_data[6]);
 
-                    Admin.addProduct(my_product);
+                        Admin.addProduct(my_product);
+                    } catch (NumberFormatException e) {
+                        System.err.println("\n\nInvalid numeric value in the file: " + e.getMessage());
+                    }
                 } 
+                reader.readLine();
             }
         }
         catch(IOException e){

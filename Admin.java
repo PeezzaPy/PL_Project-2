@@ -49,6 +49,7 @@ public class Admin {
                 product.date_time = now.format(formatter);
 
                 addProduct(product);
+                Main.save();
             }
             else if(Main.choice == 2)
                 display();
@@ -67,7 +68,6 @@ public class Admin {
         else {
             Main.marker++;
             Main.my_inv[Main.marker] = new Inventory(my_product.product_name, my_product.date_time, my_product.orig_price, my_product.qty, my_product.retail_price);
-            Main.save();
         }
     }   
 
