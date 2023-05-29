@@ -95,7 +95,8 @@ public class Authen {
                 writer.write(ename + '\n');
                 writer.write(eusern + '\n');
                 writer.write(epass + '\n');
-            }       
+            }
+            writer.close();       
         } catch (IOException e){
             e.printStackTrace();
         }
@@ -109,7 +110,8 @@ public class Authen {
                 writer.write(ename + '\n');
                 writer.write(eusern + '\n');
                 writer.write(epass + '\n');
-            }           
+            } 
+            writer.close();           
         } catch (IOException e){
             e.printStackTrace();
         } 
@@ -135,6 +137,7 @@ public class Authen {
                 else
                     break;
             } 
+            reader.close();
         } catch (IOException e){
         }
 
@@ -153,6 +156,7 @@ public class Authen {
                 else 
                     break;
             }
+            reader.close();
         } catch (IOException e){
         }
     }

@@ -146,6 +146,7 @@ class Main {
                     writer.write("\n\n");
                 }
             }
+            writer.close();
         } catch (IOException e){
             e.printStackTrace();
         }
@@ -182,6 +183,7 @@ class Main {
                 } 
                 reader.readLine();
             }
+            reader.close();
         }
         catch(IOException e){
         }
