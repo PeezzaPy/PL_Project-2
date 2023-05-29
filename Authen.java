@@ -9,8 +9,7 @@ public class Authen {
     static Scanner console = new Scanner(System.in);
     static String name, username, password, ename, eusern, epass; 
     static int key = 8;
-    static String admin_fp = "C:\\Users\\ASUS\\Desktop\\PL_Project-2\\account\\adminAcc.txt";  
-    static String cashier_fp = "C:\\Users\\ASUS\\Desktop\\PL_Project-2\\account\\cashierAcc.txt";  
+    static String admin_fp, cashier_fp;
 
     static int login(int my_choice){     
         Terminal.clearScreen();
@@ -83,9 +82,12 @@ public class Authen {
     }
 
 
-    public static void saveAccount(){    
+    public static void saveAccount(){      
+        admin_fp = Security.encrypt(Security.getAdminFileName(), key);
+        cashier_fp = Security.encrypt(Security.getCashierFileName(), key);
+
         // ADMIN ACCOUNT
-        try (FileWriter writer = new FileWriter(admin_fp)){
+        try (FileWriter writer = new FileWriter("C:/Users/ASUS/Desktop/PL_Project-2/account/" + admin_fp + ".txt")){
             if(Main.adminAcc.getName()  != "N/A"){
                 ename = Security.encrypt(Main.adminAcc.getName(), key);
                 eusern = Security.encrypt(Main.adminAcc.getUsername(), key); 
@@ -99,7 +101,7 @@ public class Authen {
         }
         
         // CASHIER ACCOUNT
-        try (FileWriter writer = new FileWriter(cashier_fp)){
+        try (FileWriter writer = new FileWriter("C:/Users/ASUS/Desktop/PL_Project-2/account/" + cashier_fp + ".txt")){
             if(Main.cashierAcc.getName() != "N/A"){
                 ename = Security.encrypt(Main.cashierAcc.getName(), key);
                 eusern = Security.encrypt(Main.cashierAcc.getUsername(), key); 
@@ -115,9 +117,11 @@ public class Authen {
 
 
     public static void retrieveAccount(){
+        String data_line;
+        admin_fp = Security.encrypt(Security.getAdminFileName(), key);
+        cashier_fp = Security.encrypt(Security.getCashierFileName(), key);
         // ADMIN ACCOUNT
-        try(BufferedReader reader = new BufferedReader(new FileReader(admin_fp))){
-            String data_line;
+        try(BufferedReader reader = new BufferedReader(new FileReader("C:/Users/ASUS/Desktop/PL_Project-2/account/" + admin_fp + ".txt"))){
             while((data_line = reader.readLine()) != null){
                 if(data_line != "N/A"){
                     ename = data_line;   
@@ -132,12 +136,10 @@ public class Authen {
                     break;
             } 
         } catch (IOException e){
-            e.printStackTrace();
         }
 
         // CASHIER ACCOUNT
-        try(BufferedReader reader = new BufferedReader(new FileReader(cashier_fp))){
-            String data_line;
+        try(BufferedReader reader = new BufferedReader(new FileReader("C:/Users/ASUS/Desktop/PL_Project-2/account/" + cashier_fp + ".txt"))){
             while((data_line = reader.readLine()) != null){
                 if(data_line != "N/A"){
                     ename = data_line;   
@@ -152,7 +154,6 @@ public class Authen {
                     break;
             }
         } catch (IOException e){
-            e.printStackTrace();
         }
     }
 }

@@ -1,5 +1,7 @@
 public class Security {
-    
+    final private static String admin_fp = "admin";
+    final private static String cashier_fp = "cashier";
+
     public static String encrypt(String text, int key){
         String encryptedText = "";
         for(int i=0; i<text.length(); i++){
@@ -19,5 +21,14 @@ public class Security {
             decryptedText += ch;
         }
         return decryptedText;
+    }
+
+
+    public static String getAdminFileName(){
+        return admin_fp;
+    }
+
+    public static String getCashierFileName(){
+        return cashier_fp;
     }
 }
