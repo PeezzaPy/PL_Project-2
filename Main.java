@@ -1,14 +1,13 @@
 import java.util.Scanner;
-
-
 import java.io.FileWriter;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+
 class Main {
     final static int MAX_INV = 100;
-    static int pos, marker, choice;
+    public static int pos, marker, choice;
     static boolean validInput;
     static Inventory[] my_inv = new Inventory[MAX_INV]; 
     static Scanner console = new Scanner(System.in);
@@ -20,12 +19,13 @@ class Main {
         boolean isRepeat;
 
         init(); 
+        Authen.retrieveAccount();
         retrieve();
         while(true){
             startMenu();
             do {
                 switch(Authen.login(choice)){
-                    case 1: cashier();
+                    case 1: Cashier.cashier();
                             isRepeat = false; 
                             break;
                     case 2: Admin.admin();
@@ -91,8 +91,10 @@ class Main {
                 if(choice == 1 || choice == 2){
                     if(authen_choice == 1)
                         status = true;
-                    else if(authen_choice == 2)
+                    else if(authen_choice == 2){
                         Authen.signUp(choice);
+                        Authen.saveAccount();
+                    }
                 } 
             }
             else
@@ -110,42 +112,6 @@ class Main {
             return 1;
         else
             return 0;
-    }
-
-
-    private static void cashier(){
-        validInput = false;
-
-        do {
-            do {
-                Terminal.clearScreen();
-                System.out.println("=-=-=-= CASHIER =-=-=-=");
-                System.out.println("(1) New Customer");
-                System.out.println("(0) Log out");
-                System.out.print("Select: ");
-                
-                if(console.hasNextInt()){
-                    choice = console.nextInt();
-                    validInput = true;
-                }
-                else {
-                    console.next();     // consume the invalid input
-                    validInput = false;
-                }
-            } while (!validInput);
-        
-            if (choice == 1)
-                punch();
-            else if (choice == 0)
-                main(null);
-            
-        } while (choice != 0);
-    }
-        
-
-    private static void punch(){
-        Terminal.clearScreen();
-        System.out.print("PUNCH FUNCTION");
     }
 
 
@@ -177,10 +143,10 @@ class Main {
                     writer.write(' ');
 
                     writer.write(String.valueOf(product.profit));
-                    writer.write("\n");
+                    writer.write("\n\n");
                 }
             }
-        } catch (IOException e) {
+        } catch (IOException e){
             e.printStackTrace();
         }
     }

@@ -1,9 +1,16 @@
 import java.util.Scanner;
+import java.io.FileWriter;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.BufferedReader;
 
 
 public class Authen {
     static Scanner console = new Scanner(System.in);
-    static String name, username, password;
+    static String name, username, password, ename, eusern, epass; 
+    static int key = 8;
+    static String admin_fp = "C:\\Users\\ASUS\\Desktop\\PL_Project-2\\account\\adminAcc.txt";  
+    static String cashier_fp = "C:\\Users\\ASUS\\Desktop\\PL_Project-2\\account\\cashierAcc.txt";  
 
     static int login(int my_choice){     
         Terminal.clearScreen();
@@ -34,7 +41,6 @@ public class Authen {
     }
     
 
-    
     static void signUp(int my_choice){
         String repassword;
 
@@ -59,13 +65,14 @@ public class Authen {
 
             if(password.equals(repassword)){
                 if(my_choice == 1){
-                    Main.cashierAcc = new Account(name, username, password);     
+                    Main.cashierAcc = new Account(name, username, password);
                     break;
                 }  
                 else if(my_choice == 2){
                     Main.adminAcc = new Account(name, username, password);
                     break;
                 } 
+                
             }
             else {
                 Terminal.clearScreen();
@@ -74,4 +81,80 @@ public class Authen {
             }
         }   
     }
+
+
+    public static void saveAccount(){    
+        // ADMIN ACCOUNT
+        try (FileWriter writer = new FileWriter(admin_fp)){
+            if(Main.adminAcc.getName()  != "N/A"){
+                ename = Security.encrypt(Main.adminAcc.getName(), key);
+                eusern = Security.encrypt(Main.adminAcc.getUsername(), key); 
+                epass = Security.encrypt(Main.adminAcc.getPassword(), key); 
+                writer.write(ename + '\n');
+                writer.write(eusern + '\n');
+                writer.write(epass + '\n');
+            }       
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        
+        // CASHIER ACCOUNT
+        try (FileWriter writer = new FileWriter(cashier_fp)){
+            if(Main.cashierAcc.getName() != "N/A"){
+                ename = Security.encrypt(Main.cashierAcc.getName(), key);
+                eusern = Security.encrypt(Main.cashierAcc.getUsername(), key); 
+                epass = Security.encrypt(Main.cashierAcc.getPassword(), key); 
+                writer.write(ename + '\n');
+                writer.write(eusern + '\n');
+                writer.write(epass + '\n');
+            }           
+        } catch (IOException e){
+            e.printStackTrace();
+        } 
+    }
+
+
+    public static void retrieveAccount(){
+        // ADMIN ACCOUNT
+        try(BufferedReader reader = new BufferedReader(new FileReader(admin_fp))){
+            String data_line;
+            while((data_line = reader.readLine()) != null){
+                if(data_line != "N/A"){
+                    ename = data_line;   
+                    eusern = reader.readLine();
+                    epass = reader.readLine();
+                    name = Security.decrypt(ename, key);
+                    username = Security.decrypt(eusern, key);
+                    password = Security.decrypt(epass, key);
+                    Main.adminAcc = new Account(name, username, password);    
+                }
+                else
+                    break;
+            } 
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+
+        // CASHIER ACCOUNT
+        try(BufferedReader reader = new BufferedReader(new FileReader(cashier_fp))){
+            String data_line;
+            while((data_line = reader.readLine()) != null){
+                if(data_line != "N/A"){
+                    ename = data_line;   
+                    eusern = reader.readLine();
+                    epass = reader.readLine();
+                    name = Security.decrypt(ename, key);
+                    username = Security.decrypt(eusern, key);
+                    password = Security.decrypt(epass, key);
+                    Main.cashierAcc = new Account(name, username, password);
+                }
+                else 
+                    break;
+            }
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
 }
+
+
