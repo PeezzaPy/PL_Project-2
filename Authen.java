@@ -11,6 +11,20 @@ public class Authen {
     static int key = 8;
     static String admin_fp, cashier_fp;
 
+
+    static void inputValidation(){
+        if(console.hasNextInt()){
+            Main.choice = console.nextInt();
+            Main.validInput = true;
+            console.nextLine();
+        }
+        else {
+            console.next();     // consume the invalid input
+            Main.validInput = false;
+        }
+    }
+
+    
     static int login(int my_choice){     
         Terminal.clearScreen();
         System.out.println("=-=-= LOG IN =-=-=-= \n");

@@ -3,8 +3,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Admin {
-    Terminal terminal = new Terminal();
     static Scanner console = new Scanner(System.in);
+    static String name, username, password;
 
     public static void admin(){
         Inventory product = new Inventory();
@@ -17,18 +17,11 @@ public class Admin {
                 System.out.println("=-=-= ADMIN INVENTORY =-=-= \n");
                 System.out.println("(1) Add Product");
                 System.out.println("(2) Display");
+                System.out.println("(3) Settings");
                 System.out.println("(0) Log out \n");
                 System.out.print("Select: ");
-                
-                if(console.hasNextInt()){
-                    Main.choice = console.nextInt();
-                    Main.validInput = true;
-                }
-                else {
-                    console.next();     // consume the invalid input
-                    Main.validInput = false;
-                }
-            } while (!Main.validInput || Main.choice < 0 || Main.choice > 2);
+                Authen.inputValidation();
+            } while (!Main.validInput || Main.choice < 0 || Main.choice > 3);
 
             Terminal.clearScreen();
             if(Main.choice == 1){
@@ -53,7 +46,8 @@ public class Admin {
             }
             else if(Main.choice == 2)
                 display();
-
+            else if(Main.choice == 3)
+                settings();
         } while (Main.choice != 0);
     } 
 
@@ -95,5 +89,88 @@ public class Admin {
         }
         System.out.println("\n\nPress Enter to continue...");
         console.nextLine();
+    }
+
+
+    static void settings(){
+        do {
+            Main.validInput = false;
+            do {
+                Terminal.clearScreen();
+                System.out.println("=-=-= SETTINGS =-=-= \n");
+                System.out.println("(1) Cashier");
+                System.out.println("(2) Admin");
+                System.out.println("(0) Exit \n");
+                System.out.print("Select: ");
+                Authen.inputValidation();
+            } while (!Main.validInput || Main.choice < 0 || Main.choice > 2);
+
+            if(Main.choice == 1)
+                cashierSettings();
+            else if(Main.choice == 2)
+                adminSettings();
+        } while (Main.choice != 0);
+    }
+
+
+    static void adminSettings() throws IllegalArgumentException {
+        name = Main.adminAcc.getName();
+        username = Main.adminAcc.getUsername();
+        password = Main.adminAcc.getPassword();
+
+        do {
+            Main.validInput = false;
+            do {
+                Terminal.clearScreen();
+                System.out.println("=-=-= ADMIN SETTINGS =-=-= \n");
+                System.out.println("(1) Change Name");
+                System.out.println("(2) Change Username");
+                System.out.println("(3) Change Password");
+                System.out.println("(4) Change Encryption Key");
+                System.out.println("(0) Exit \n");
+                System.out.print("Select: ");
+                Authen.inputValidation();
+            } while (!Main.validInput || Main.choice < 0 || Main.choice > 2);
+
+            Terminal.clearScreen();
+            if(Main.choice == 1){
+                System.out.println("Current name: " + Main.adminAcc.getName());
+                System.out.print("New name: ");
+                name = console.nextLine();
+                if(name.equals(Main.adminAcc.getName()))
+                    throw new IllegalArgumentException("New name cannot be the same as current name");
+                
+            }
+            else if(Main.choice == 2){
+                System.out.println("Current Username: " + Main.adminAcc.getUsername());
+                System.out.print("New username: ");
+                username = console.nextLine();
+                if(username.equals(Main.adminAcc.getUsername()))
+                    throw new IllegalArgumentException("New name cannot be the same as current name");
+            }
+            else if(Main.choice == 3){
+                System.out.println("Current Password: " + Main.adminAcc.getPassword());
+                System.out.print("New password: ");
+                password = console.nextLine();
+                if(password.equals(Main.adminAcc.getPassword()))
+                    throw new IllegalArgumentException("New name cannot be the same as current name");
+            }
+            else if(Main.choice == 4){
+
+            }
+            // Update admin account data
+            System.out.println("\n\nCHANGED SUCCESSFULLY");
+            Main.adminAcc = new Account(name, username, password);
+            Authen.saveAccount();
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+            }
+        } while (Main.choice != 0);
+    }
+
+
+    static void cashierSettings(){
+        
     }
 }
