@@ -7,7 +7,7 @@ import java.io.IOException;
 
 class Main {
     final static int MAX_INV = 100;
-    public static int pos, marker, choice, loginChoice;
+    public static int i, marker, choice, loginChoice;
     static boolean validInput, backToLogin;
     static Inventory[] my_inv = new Inventory[MAX_INV]; 
     static Scanner console = new Scanner(System.in);
@@ -19,6 +19,7 @@ class Main {
         init(); 
         Authen.retrieveAccount();
         retrieve();
+
         while(true){
             startMenu();
             do {
@@ -29,9 +30,9 @@ class Main {
                     case 2: Admin.admin();
                             break;
                     
-                    default: Terminal.clearScreen();
-                                System.out.println("INVALID USERNAME/PASSWORD \n");
-                                console.nextLine();
+                    default: backToLogin = true;
+                             System.out.println("\n\nINVALID USERNAME/PASSWORD \n");
+                             console.nextLine();
                 }
             } while(backToLogin == true);
         }   
@@ -66,6 +67,13 @@ class Main {
             return 0;
     }
 
+    public static int locateProduct(Inventory my_product){
+        for(i=0; i<=marker; i++){
+            if(my_inv[i].product_name.equalsIgnoreCase(my_product.product_name))
+                return i;
+        }
+        return -1;
+    }
 
     public static void save(){
         String inventory_fp = "C:\\Users\\ASUS\\Desktop\\PL_Project-2\\item\\inventory.txt";

@@ -5,9 +5,10 @@ import java.time.format.DateTimeFormatter;
 public class Admin {
     static Scanner console = new Scanner(System.in);
     static String name, username, password;
-    
+
     public static void admin(){
         Inventory product = new Inventory();
+        int pos;
 
         do {
         //save_profit_history();
@@ -26,8 +27,8 @@ public class Admin {
             if(Main.choice == 1){
                 System.out.println("=-=-= ADD PRODUCT =-=-= \n");
                 System.out.print("Product Name: ");
-                console.nextLine();     // catching buffer
-                product.product_name = console.nextLine();
+                String product_name = console.nextLine();
+                product.product_name = product_name.toUpperCase();
                 System.out.print("Price (each): ");
                 product.orig_price = console.nextDouble();
                 System.out.print("Quantity: ");
@@ -40,7 +41,13 @@ public class Admin {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd / HH:mm:ss");
                 product.date_time = now.format(formatter);
 
-                addProduct(product);
+                // locate if already exist or not
+                pos = Main.locateProduct(product);
+                if(pos == -1)
+                    addProduct(product);
+                else       // if exist update the product 
+                    updateProduct(product, pos);
+                
                 Main.save();
             }
             else if(Main.choice == 2)
@@ -68,6 +75,15 @@ public class Admin {
         }
     }   
 
+
+    static void updateProduct(Inventory my_product, int indexPos) {
+        if((Main.my_inv[indexPos].qty + my_product.qty) > 50){
+            System.out.println("QUANTITY LIMIT EXCEEDED");
+            console.nextLine();
+        }
+        else
+            Main.my_inv[indexPos] = new Inventory(my_product.product_name, my_product.date_time, my_product.orig_price, (Main.my_inv[indexPos].qty + my_product.qty), my_product.retail_price);
+    }
 
     static void display(){
         Terminal.clearScreen();
