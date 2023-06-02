@@ -8,8 +8,8 @@ import java.io.BufferedReader;
 public class Authen {
     static Scanner console = new Scanner(System.in);
     static String name, username, password, ename, eusern, epass; 
-    static int key = 8;
     static String admin_fp, cashier_fp;
+    final static int key = 8;
 
 
     static void inputValidation(){

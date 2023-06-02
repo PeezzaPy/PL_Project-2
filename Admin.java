@@ -225,7 +225,7 @@ public class Admin {
                     }
                 }
                 else if(my_choice == 3){
-
+                    System.out.println("Current encryption key: ");
                 }
 
                 if(Main.choice != 0)
