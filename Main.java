@@ -9,7 +9,8 @@ class Main {
     final static int MAX_INV = 100;
     public static int i, marker, choice, loginChoice;
     static boolean validInput, backToLogin;
-    static Inventory[] my_inv = new Inventory[MAX_INV]; 
+    static Inventory[] my_inv = new Inventory[MAX_INV];
+    static Receipt[] customerReceipt = new Receipt[MAX_INV];
     static Scanner console = new Scanner(System.in);
     static Account adminAcc = new Account();
     static Account cashierAcc = new Account();
@@ -77,8 +78,16 @@ class Main {
         return -1;
     }
 
+    public static int locateProductforReceipt(Receipt my_product){
+        for(i=0; i<=marker; i++){
+            if(my_inv[i].product_name.equalsIgnoreCase(my_product.productName))
+                return i;
+        }
+        return -1;
+    }
+
     public static void save(){
-        String inventory_fp = "C:\\Users\\ASUS\\Desktop\\PL_Project-2\\product\\inventory.txt";
+        String inventory_fp = "E:/2nd Yeaer/2nd sem/PL/java/PL_Project-2/item/inventory.txt";
         try (FileWriter writer = new FileWriter(inventory_fp)){
             for(Inventory product : my_inv){
                 if(product != null){
@@ -117,7 +126,7 @@ class Main {
 
     private static void retrieve(){
         Inventory my_product = new Inventory();
-        String inventory_fp = "C:\\Users\\ASUS\\Desktop\\PL_Project-2\\product\\inventory.txt";
+        String inventory_fp = "E:/2nd Yeaer/2nd sem/PL/java/PL_Project-2/item/inventory.txt";
 
         try(BufferedReader reader = new BufferedReader(new FileReader(inventory_fp))){
             String data_line;
