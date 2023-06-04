@@ -20,8 +20,6 @@ class Main {
         init(); 
         Authen.retrieveAccount();
         retrieve();
-        System.out.println(Security.getSecretKey());
-        console.nextLine();
 
         while(true){
             startMenu();
@@ -87,7 +85,7 @@ class Main {
     }
 
     public static void save(){
-        String inventory_fp = "E:/2nd Yeaer/2nd sem/PL/java/PL_Project-2/item/inventory.txt";
+        String inventory_fp = "C:\\Users\\ASUS\\Desktop\\PL_Project-2\\product\\inventory.txt";
         try (FileWriter writer = new FileWriter(inventory_fp)){
             for(Inventory product : my_inv){
                 if(product != null){
@@ -126,7 +124,7 @@ class Main {
 
     private static void retrieve(){
         Inventory my_product = new Inventory();
-        String inventory_fp = "E:/2nd Yeaer/2nd sem/PL/java/PL_Project-2/item/inventory.txt";
+        String inventory_fp = "C:\\Users\\ASUS\\Desktop\\PL_Project-2\\product\\inventory.txt";
 
         try(BufferedReader reader = new BufferedReader(new FileReader(inventory_fp))){
             String data_line;

@@ -139,20 +139,22 @@ public class Admin {
         password = Main.adminAcc.getPassword();
 
         do {
-            do {
-                Terminal.clearScreen();
-                if(my_choice == 1)
-                    System.out.println("=-=-= CASHIER SETTINGS =-=-= \n");
-                else if(my_choice == 2)
-                    System.out.println("=-=-= ADMIN SETTINGS =-=-= \n");
-                // update info
-                System.out.println("(1) Change Name");
-                System.out.println("(2) Change Username");
-                System.out.println("(3) Change Password");
-                System.out.println("(0) Exit \n");
-                System.out.print("Select: ");
-                Authen.inputValidation();
-            } while (!Main.validInput || Main.choice < 0 || Main.choice > 3);
+            if(my_choice == 1 || my_choice == 2){
+                do {
+                    Terminal.clearScreen();
+                    if(my_choice == 1)
+                        System.out.println("=-=-= CASHIER SETTINGS =-=-= \n");
+                    else if(my_choice == 2)
+                        System.out.println("=-=-= ADMIN SETTINGS =-=-= \n");
+                    // update info
+                    System.out.println("(1) Change Name");
+                    System.out.println("(2) Change Username");
+                    System.out.println("(3) Change Password");
+                    System.out.println("(0) Exit \n");
+                    System.out.print("Select: ");
+                    Authen.inputValidation();
+                } while (!Main.validInput || Main.choice < 0 || Main.choice > 3);
+            }
 
             if(Main.choice == 0){
                 Main.choice = -1;
@@ -218,24 +220,44 @@ public class Admin {
                         if(password.equals(Main.adminAcc.getPassword()))
                             throw new IllegalArgumentException("NEW PASSWORD MUST NOT BE THE SAME AS CURRENT PASSWORD");
                         else
-                            if(!(password.equals(temp_password)))
+                            if(password.equals(temp_password))
                                 Main.adminAcc = new Account(name, username, password);
                             else
                                 throw new IllegalArgumentException("NEW PASSWORD DOES NOT MATCHED");
                     }
                 }
                 else if(my_choice == 3){
-                    System.out.println("Current encryption key: ");
+                    System.out.println("Current encryption key: " + Security.getSecretKey());
+                    System.out.print("New encryption key: ");
+                    int new_key = Integer.parseInt(console.nextLine());
+                    if(new_key == Security.getSecretKey()){
+                        System.out.println("New key must not be the same as current key");
+                        console.nextLine();
+                    }
+                    else {
+                        // store previous
+                        String old_admin_fp = Security.encrypt(Security.getAdminFileName(), Security.getSecretKey());
+                        String old_cashier_fp = Security.encrypt(Security.getCashierFileName(), Security.getSecretKey());
+                        Security.changeSecretKey(new_key);
+                        // store new ones
+                        String new_admin_fp = Security.encrypt(Security.getAdminFileName(), Security.getSecretKey());
+                        String new_cashier_fp = Security.encrypt(Security.getCashierFileName(), Security.getSecretKey());
+                        
+                        Security.renameFile("C:\\Users\\ASUS\\Desktop\\PL_Project-2\\account\\" + old_admin_fp + ".txt", "C:\\Users\\ASUS\\Desktop\\PL_Project-2\\account\\" + new_admin_fp + ".txt");
+                        Security.renameFile("C:\\Users\\ASUS\\Desktop\\PL_Project-2\\account\\" + old_cashier_fp + ".txt", "C:\\Users\\ASUS\\Desktop\\PL_Project-2\\account\\" + new_cashier_fp + ".txt");
+                        
+                        Authen.saveAccount();
+                    }
                 }
 
-                if(Main.choice != 0)
+                if(Main.choice != 0){
                     System.out.println("\n\nCHANGED SUCCESSFULLY");
-                
-                Authen.saveAccount();
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e){
+                    Main.console.nextLine();
+                    Authen.saveAccount();
                 }
+
+                if(my_choice == 3);
+                    Main.choice = 0;
             }
         } while (Main.choice != 0);
     }
