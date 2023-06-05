@@ -64,6 +64,7 @@ public class Security {
                 old_fp.createNewFile();
             } catch (Exception e) {
                 System.out.println("Exception occurred during file creating: " + e.getMessage());
+                Terminal.clearScreen();
             }          
         }
 
@@ -71,6 +72,7 @@ public class Security {
             old_fp.renameTo(new_fp);
         } catch (Exception e){
             System.out.println("Exception occurred during file renaming: " + e.getMessage());
+            Terminal.clearScreen();
         }
     }
 

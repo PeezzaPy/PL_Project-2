@@ -39,7 +39,6 @@ class Main {
         }   
     }
 
-
     public static void startMenu(){
         do {
             Terminal.clearScreen();
