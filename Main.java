@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -84,13 +85,24 @@ class Main {
     }
 
     public static void save(){
+        File prod_fp = new File("C:\\Users\\ASUS\\Desktop\\PL_Project-2\\product\\inventory.txt");
+        try {
+            if(!prod_fp.exists())  
+                prod_fp.createNewFile();
+        } catch (IOException e){
+        }
+
         String inventory_fp = "C:\\Users\\ASUS\\Desktop\\PL_Project-2\\product\\inventory.txt";
         try (FileWriter writer = new FileWriter(inventory_fp)){
             for(Inventory product : my_inv){
                 if(product != null){
+                    writer.write(product.category + '\n');
+
                     writer.write(product.date_time + '\n');
 
                     writer.write(product.product_name + '\n');
+
+                    writer.write(product.exp_date_time + '\n');
 
                     writer.write(String.valueOf(product.orig_price));
                     writer.write(' ');
@@ -129,8 +141,10 @@ class Main {
             String data_line;
             
             while((data_line = reader.readLine()) != null){
-                my_product.date_time = data_line;
+                my_product.category = data_line;
+                my_product.date_time = reader.readLine();
                 my_product.product_name = reader.readLine();
+                my_product.exp_date_time = reader.readLine();
 
                 String line = reader.readLine();
                 if(line != null){

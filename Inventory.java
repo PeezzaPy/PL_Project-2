@@ -1,6 +1,8 @@
 public class Inventory {
     public String product_name;
+    public String category;
     public String date_time;
+    public String exp_date_time;
     public double orig_price;
     public int qty;
     public double total_price;
@@ -12,7 +14,9 @@ public class Inventory {
     // Declaration
     Inventory(){
         this.product_name = "N/A";
+        this.category = "N/A";
         this.date_time = "N/A";
+        this.exp_date_time = "N/A";
         this.orig_price = 0.0;
         this.qty = 0;
         this.total_price = 0.0;
@@ -22,9 +26,11 @@ public class Inventory {
         this.profit = 0.0;
     }
 
-    Inventory(String product_name, String date_time, double orig_price, int qty, double retail_price){
+    Inventory(String category, String product_name, String date_time, String exp_date_time, double orig_price, int qty, double retail_price){
+        this.category = category;
         this.product_name = product_name;
         this.date_time = date_time;
+        this.exp_date_time = exp_date_time;
         this.orig_price = orig_price;
         this.qty = qty;
         this.total_price = orig_price * qty;

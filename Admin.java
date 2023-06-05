@@ -26,6 +26,9 @@ public class Admin {
             Terminal.clearScreen();
             if(Main.choice == 1){
                 System.out.println("=-=-= ADD PRODUCT =-=-= \n");
+                product.category = Category.setGetCategory();
+                System.out.println(product.category);
+                console.nextLine();
                 System.out.print("Product Name: ");
                 String product_name = console.nextLine();
                 product.product_name = product_name.toUpperCase();
@@ -35,13 +38,15 @@ public class Admin {
                 product.qty = console.nextInt();
                 System.out.print("Retail price (each): ");
                 product.retail_price = console.nextDouble();    
-
                 // Get the current date/time
                 LocalDateTime now = LocalDateTime.now();
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd / HH:mm:ss");
                 product.date_time = now.format(formatter);
+                // Set and get expiration date
+                product.exp_date_time = Category.setGetExpirationDate(product.date_time, product.category);
 
                 // locate if already exist or not
+                
                 pos = Main.locateProduct(product);
                 if(pos == -1)
                     addProduct(product);
@@ -71,7 +76,7 @@ public class Admin {
         }
         else {
             Main.marker++;
-            Main.my_inv[Main.marker] = new Inventory(my_product.product_name, my_product.date_time, my_product.orig_price, my_product.qty, my_product.retail_price);
+            Main.my_inv[Main.marker] = new Inventory(my_product.category, my_product.product_name, my_product.date_time, my_product.exp_date_time, my_product.orig_price, my_product.qty, my_product.retail_price);
         }
     }   
 
@@ -82,12 +87,11 @@ public class Admin {
             console.nextLine();
         }
         else
-            Main.my_inv[indexPos] = new Inventory(my_product.product_name, my_product.date_time, my_product.orig_price, (Main.my_inv[indexPos].qty + my_product.qty), my_product.retail_price);
+            Main.my_inv[indexPos] = new Inventory(my_product.category, my_product.product_name, my_product.date_time, my_product.exp_date_time, my_product.orig_price, (Main.my_inv[indexPos].qty + my_product.qty), my_product.retail_price);
     }
 
     static void display(){
         Terminal.clearScreen();
-        console.nextLine();     // clear buffer
         if(Main.marker == -1){
             System.out.println("INVENTORY IS EMPTY \n");
             console.nextLine();
@@ -95,8 +99,10 @@ public class Admin {
         }
         
         for(int i=0; i<=Main.marker; i++){
+            System.out.println("Category: " + Main.my_inv[i].category);
             System.out.println("Product Name: " + Main.my_inv[i].product_name);
             System.out.println("Date/Time: " + Main.my_inv[i].date_time);
+            System.out.println("Expiration Date/Time: " + Main.my_inv[i].exp_date_time);
             System.out.println("Original Price: " + Main.my_inv[i].orig_price);
             System.out.println("Quantity: " + Main.my_inv[i].qty);
             System.out.println("Total Amount: " + Main.my_inv[i].total_price);
