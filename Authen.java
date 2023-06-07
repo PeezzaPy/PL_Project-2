@@ -83,7 +83,7 @@ public class Authen {
         } catch (IOException e){
         }*/
         
-        try (FileWriter writer = new FileWriter("C:\\Users\\ASUS\\Desktop\\PL_Project-2\\account\\" + admin_fp + ".txt")){
+        try (FileWriter writer = new FileWriter("E:\\2nd Yeaer\\2nd sem\\PL\\java\\PL_Project-2\\account\\" + admin_fp + ".txt")){
             if(Main.adminAcc.getName()  != "N/A"){
                 ename = Security.encrypt(Main.adminAcc.getName(), Security.getSecretKey());
                 eusern = Security.encrypt(Main.adminAcc.getUsername(), Security.getSecretKey()); 
@@ -104,7 +104,7 @@ public class Authen {
         } catch (IOException e){
         }*/
 
-        try (FileWriter writer = new FileWriter("C:\\Users\\ASUS\\Desktop\\PL_Project-2\\account\\" + cashier_fp + ".txt")){
+        try (FileWriter writer = new FileWriter("E:\\2nd Yeaer\\2nd sem\\PL\\java\\PL_Project-2\\account\\" + cashier_fp + ".txt")){
             if(Main.cashierAcc.getName() != "N/A"){
                 ename = Security.encrypt(Main.cashierAcc.getName(), Security.getSecretKey());
                 eusern = Security.encrypt(Main.cashierAcc.getUsername(), Security.getSecretKey()); 
@@ -125,7 +125,7 @@ public class Authen {
         cashier_fp = Security.encrypt(Security.getCashierFileName(), Security.getSecretKey());
 
         // ADMIN ACCOUNT
-        try(BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\ASUS\\Desktop\\PL_Project-2\\account\\" + admin_fp + ".txt"))){
+        try(BufferedReader reader = new BufferedReader(new FileReader("E:\\2nd Yeaer\\2nd sem\\PL\\java\\PL_Project-2\\account\\" + admin_fp + ".txt"))){
             while((data_line = reader.readLine()) != null){
                 if(data_line != "N/A"){
                     ename = data_line;   
@@ -144,7 +144,7 @@ public class Authen {
         }
 
         // CASHIER ACCOUNT
-        try(BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\ASUS\\Desktop\\PL_Project-2\\account\\" + cashier_fp + ".txt"))){
+        try(BufferedReader reader = new BufferedReader(new FileReader("E:\\2nd Yeaer\\2nd sem\\PL\\java\\PL_Project-2\\account\\" + cashier_fp + ".txt"))){
             while((data_line = reader.readLine()) != null){
                 if(data_line != "N/A"){
                     ename = data_line;   

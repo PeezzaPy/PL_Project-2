@@ -85,14 +85,14 @@ class Main {
     }
 
     public static void save(){
-        File prod_fp = new File("C:\\Users\\ASUS\\Desktop\\PL_Project-2\\product\\inventory.txt");
+        File prod_fp = new File("E:\\2nd Yeaer\\2nd sem\\PL\\java\\PL_Project-2\\product\\inventory.txt");
         try {
             if(!prod_fp.exists())  
                 prod_fp.createNewFile();
         } catch (IOException e){
         }
 
-        String inventory_fp = "C:\\Users\\ASUS\\Desktop\\PL_Project-2\\product\\inventory.txt";
+        String inventory_fp = "E:\\2nd Yeaer\\2nd sem\\PL\\java\\PL_Project-2\\product\\inventory.txt";
         try (FileWriter writer = new FileWriter(inventory_fp)){
             for(Inventory product : my_inv){
                 if(product != null){
@@ -135,7 +135,7 @@ class Main {
 
     private static void retrieve(){
         Inventory my_product = new Inventory();
-        String inventory_fp = "C:\\Users\\ASUS\\Desktop\\PL_Project-2\\product\\inventory.txt";
+        String inventory_fp = "E:\\2nd Yeaer\\2nd sem\\PL\\java\\PL_Project-2\\product\\inventory.txt";
 
         try(BufferedReader reader = new BufferedReader(new FileReader(inventory_fp))){
             String data_line;

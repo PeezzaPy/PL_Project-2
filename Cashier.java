@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class Cashier {
     static Scanner console = new Scanner(System.in);
-    public static int mark=0;
+    public static int  mark = 0 ;
 
     static void cashier() {
         Main.validInput = false;
@@ -56,12 +56,20 @@ public class Cashier {
             System.out.println("Product does not exist/out of stock");
         }
         else{
-            //calculate the total price then save to resibo.totalPrice
-            resibo.totalPrice=(resibo.quantity* Main.my_inv[position].retail_price);
-            resibo.price=Main.my_inv[position].retail_price;
-            Main.my_inv[position].qty -= resibo.quantity;
-            //add to customer receipt
-            addToReceipt(resibo);
+            if(mark != 0 && resibo.productName.equals(Main.customerReceipt[position].productName)){
+                Main.customerReceipt[position].quantity++;
+                Main.customerReceipt[position].totalPrice=(Main.customerReceipt[position].quantity* Main.my_inv[position].retail_price);
+                Main.my_inv[position].qty -= resibo.quantity;
+            }
+            else{
+                //calculate the total price then save to resibo.totalPrice
+                resibo.totalPrice=(resibo.quantity* Main.my_inv[position].retail_price);
+                resibo.price=Main.my_inv[position].retail_price;
+                Main.my_inv[position].qty -= resibo.quantity;
+                //add to customer receipt
+                addToReceipt(resibo);
+            }
+
         }
 
         //question loop
@@ -76,6 +84,7 @@ public class Cashier {
             displayReceipt();
             Main.save();
             System.out.println("\n\nPress Enter to continue...");
+            mark = 0; //reset the receipt
             console.nextLine();
             Cashier.cashier();
         }
