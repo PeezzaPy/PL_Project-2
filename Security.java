@@ -34,7 +34,7 @@ public class Security {
 
     
     public static void changeSecretKey(int my_secretKey){ 
-        try(FileWriter writer = new FileWriter("E:\\2nd Yeaer\\2nd sem\\PL\\java\\PL_Project-2\\account\\" + secret_key + ".txt")){
+        try(FileWriter writer = new FileWriter("C:\\Users\\ASUS\\Desktop\\PL_Project-2\\account\\" + secret_key + ".txt")){
             writer.write(Integer.toString(my_secretKey));  
             writer.close();      
         } catch (IOException e){
@@ -43,7 +43,7 @@ public class Security {
 
 
     public static int getSecretKey(){
-        try(BufferedReader reader = new BufferedReader(new FileReader("E:\\2nd Yeaer\\2nd sem\\PL\\java\\PL_Project-2\\account\\" + secret_key + ".txt"))){
+        try(BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\ASUS\\Desktop\\PL_Project-2\\account\\" + secret_key + ".txt"))){
             String data = reader.readLine();
             reader.close();
             return Integer.parseInt(data);

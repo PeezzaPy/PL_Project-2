@@ -1,15 +1,12 @@
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 public class Category {
     // expiration date interval
-    private int canned_good = 6;
-    private int dairy = 7;          
-    private int drinks = 6;
-    private int fruit = 7;
-    private int junk_food = 1;      
-    private int sweet = 3;
-    private int vegetable = 1;
+    public int canned_good = 6;
+    public int dairy = 7;          
+    public int drinks = 6;
+    public int fruit = 7;
+    public int junk_food = 1;      
+    public int sweet = 3;
+    public int vegetable = 1;
 
 
     public static String setGetCategory(){
@@ -49,33 +46,5 @@ public class Category {
             catChoiceString = "Vegetable";
         
         return catChoiceString.toUpperCase();
-    }
-
-    public static String setGetExpirationDate(String now_date_time, String prod_category){
-        Category category = new Category();
-        LocalDateTime expirationDateTime = null;
-        String expirationDateTimeString;
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd / HH:mm:ss");
-        LocalDateTime currentDateTime = LocalDateTime.parse(now_date_time, formatter);
-        
-        if(prod_category.equalsIgnoreCase("CANNED GOODS"))
-            expirationDateTime = currentDateTime.plusMonths(category.canned_good);
-        else if(prod_category.equalsIgnoreCase("DAIRY"))
-            expirationDateTime = currentDateTime.plusDays(category.dairy);
-        else if(prod_category.equalsIgnoreCase("DRINK"))
-            expirationDateTime = currentDateTime.plusMonths(category.drinks);
-        else if(prod_category.equalsIgnoreCase("FRUIT"))
-            expirationDateTime = currentDateTime.plusDays(category.fruit);
-        else if(prod_category.equalsIgnoreCase("JUNK FOOD"))
-            expirationDateTime = currentDateTime.plusYears(category.junk_food);
-        else if(prod_category.equalsIgnoreCase("SWEET"))
-            expirationDateTime = currentDateTime.plusMonths(category.sweet);
-        else if(prod_category.equalsIgnoreCase("VEGETABLE"))
-            expirationDateTime = currentDateTime.plusDays(category.vegetable);
-
-        expirationDateTimeString = expirationDateTime.format(formatter);
-        
-        return expirationDateTimeString;
     }
 }

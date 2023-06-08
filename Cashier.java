@@ -49,7 +49,7 @@ public class Cashier {
         resibo.quantity = console.nextInt();
 
         //locate the product
-        position = Main.locateProductforReceipt(resibo);
+        position = Main.locateProduct(resibo);
 
         //if it exists, minus the quantity, else invalid punch
         if(position == -1){
@@ -82,7 +82,7 @@ public class Cashier {
         }
         else{
             displayReceipt();
-            Main.save();
+            DataManager.save();
             System.out.println("\n\nPress Enter to continue...");
             mark = 0; //reset the receipt
             console.nextLine();
