@@ -35,6 +35,7 @@ public class Inventory {
         this.qty = qty;
         this.total_price = orig_price * qty;
         this.retail_price = retail_price;
+        this.total_sales_amount = retail_price * this.sales_qty;
         this.profit = this.total_sales_amount - this.total_price;
     }
 }

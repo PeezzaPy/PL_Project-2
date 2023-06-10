@@ -176,17 +176,11 @@ public class DataManager {
                         if(prod_name.equalsIgnoreCase(Main.my_inv[i].name)){
                             Main.my_inv[i].qty -= prod_qty;
                             Main.my_inv[i].total_price = Main.my_inv[i].qty * Main.my_inv[i].orig_price;
-                            Main.my_inv[i].profit = Main.my_inv[i].total_sales_amount - Main.my_inv[i].total_price;
                             prod_profit_loss = prod_qty * Main.my_inv[i].orig_price;
                             Main.my_inv[i].profit -= prod_profit_loss;
 
                             if(Main.my_inv[i].qty == 0){
                                 delProduct(i);
-                                break;
-                            }
-                            else {
-                                // update the data
-                                Main.my_inv[i] = new Inventory(Main.my_inv[i].category, Main.my_inv[i].name, Main.my_inv[i].date, Main.my_inv[i].exp_date, Main.my_inv[i].orig_price, Main.my_inv[i].qty, Main.my_inv[i].retail_price);
                                 break;
                             }
                         }
@@ -213,7 +207,7 @@ public class DataManager {
                     }  
                 }
                 reader.close();
-
+                // delete the file to avoid redundancies
                 new File(expDateProd_history).delete();
             } catch (Exception e) {
                 e.printStackTrace();

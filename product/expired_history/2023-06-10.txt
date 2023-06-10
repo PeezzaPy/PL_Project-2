@@ -1,10 +1,5 @@
-Time recorded: 19:37:29
-Product Name: CHIPPY
-Quantity: 14
-Profit Loss: 140.0
-
-Time recorded: 19:37:29
-Product Name: CHIPPY
-Quantity: 4
-Profit Loss: 40.0
+Time recorded: 19:59:20
+Product Name: COCA COLA
+Quantity: 3
+Profit Loss: 30.0
 
