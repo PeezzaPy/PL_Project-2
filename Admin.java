@@ -30,6 +30,7 @@ public class Admin {
                 Terminal.clearScreen();
                 System.out.println("=-=-= ADD PRODUCT =-=-= \n");
                 System.out.println("Category: " + product.category);
+                console.nextLine();     // consume input
                 System.out.print("Product Name: ");
                 String product_name = console.nextLine();
                 product.name = product_name.toUpperCase();

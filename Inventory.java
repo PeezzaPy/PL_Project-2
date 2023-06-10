@@ -35,7 +35,7 @@ public class Inventory {
         this.qty = qty;
         this.total_price = orig_price * qty;
         this.retail_price = retail_price;
-        // this.profit = computationnnnn
+        this.profit = this.total_sales_amount - this.total_price;
     }
 }
     /* public Inventory(String product_name, String date_time, double orig_price, int qty, double total_price,

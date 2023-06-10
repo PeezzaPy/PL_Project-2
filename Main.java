@@ -16,6 +16,7 @@ class Main {
         init(); 
         Authen.retrieveAccount();
         DataManager.retrieve();
+        DataManager.delExpiredProduct();
 
         while(true){
             startMenu();

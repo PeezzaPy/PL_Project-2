@@ -1,4 +1,6 @@
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class DateManager {
 
@@ -8,6 +10,15 @@ public class DateManager {
 
         return dateString;
     }
+
+    public static String setTime(){
+        LocalTime time = LocalTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        String timeString = time.format(formatter);
+        
+        return timeString;
+    }
+    
     public static String setGetExpirationDate(String prod_category){
         Category category = new Category();
         LocalDate expirationDate = null;
