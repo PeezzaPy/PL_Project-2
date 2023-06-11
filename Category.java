@@ -8,19 +8,24 @@ public class Category {
     public int sweet = 3;
     public int vegetable = 1;
 
+    public static String category[] = {
+        "Category: \n", 
+        "(1) Canned Goods", 
+        "(2) Dairy", 
+        "(3) Drink", 
+        "(4) Fruit", 
+        "(5) Junk Food", 
+        "(6) Sweet", 
+        "(7) Vegetable"
+    };
 
     public static String setGetCategory(){
         String catChoiceString = "";
         do {
-            System.out.println("Category: \n");
-            System.out.println("(1) Canned Goods");
-            System.out.println("(2) Dairy");
-            System.out.println("(3) Drink");
-            System.out.println("(4) Fruit");
-            System.out.println("(5) Junk Food");
-            System.out.println("(6) Sweet");
-            System.out.println("(7) Vegetable \n");
-            System.out.print("Select: ");
+            for(int i=0; i<category.length; i++){
+                System.out.println(category[i]);
+            }
+            System.out.print("\nSelect: ");
             Authen.inputValidation();
             
         } while(!Main.validInput || Main.choice < 1 || Main.choice > 7);

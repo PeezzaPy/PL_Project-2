@@ -1,5 +1,0 @@
-Time recorded: 19:59:20
-Product Name: COCA COLA
-Quantity: 3
-Profit Loss: 30.0
-

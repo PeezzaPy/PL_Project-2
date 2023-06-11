@@ -76,6 +76,7 @@ public class Admin {
         }
         else {
             Main.marker++;
+            Main.my_inv[Main.marker] = new Inventory();
             Main.my_inv[Main.marker] = new Inventory(my_product.category, my_product.name, my_product.date, my_product.exp_date, my_product.orig_price, my_product.qty, my_product.retail_price);
             Main.my_inv[Main.marker].profit = Main.my_inv[Main.marker].total_sales_amount - Main.my_inv[Main.marker].total_price;
         }

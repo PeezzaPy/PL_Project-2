@@ -98,6 +98,10 @@ public class DataManager {
 
 
     public static void recordProduct(Inventory product){
+        Inventory[] my_product = new Inventory[Category.category.length];
+        int colonIndex, ctr = -1;
+        String tempString = "";
+
         File record_fp = new File (productHistory_dir + product.date + ".txt");    
         try {
             if(!record_fp.exists())
@@ -105,11 +109,54 @@ public class DataManager {
         } catch (Exception e){
         }
 
-        try(FileWriter fileWriter = new FileWriter(record_fp, true)){
-            fileWriter.write("Product Name: " + product.name + '\n');
-            fileWriter.write("Expiration Date: " + product.exp_date + '\n');
-            fileWriter.write("Quantity: " + String.valueOf(product.qty) + "\n\n");
-            fileWriter.close();
+        try(BufferedReader reader = new BufferedReader(new FileReader(record_fp))){
+            while((data_line = reader.readLine()) != null){
+                ctr++;
+                my_product[ctr] = new Inventory();      // initialize first
+
+                colonIndex = data_line.indexOf(":");
+                my_product[ctr].name = data_line.substring(colonIndex + 1).trim();
+                
+                data_line = reader.readLine();
+                colonIndex = data_line.indexOf(":");
+                my_product[ctr].exp_date = data_line.substring(colonIndex + 1).trim();
+
+                data_line = reader.readLine();
+                colonIndex = data_line.indexOf(":");
+                my_product[ctr].qty = Integer.parseInt(data_line.substring(colonIndex + 1).trim());
+                
+                reader.readLine();
+
+                System.out.println("\n\n" + my_product[ctr].name + '\n' + my_product[ctr].exp_date + '\n' + my_product[ctr].qty);
+
+                if(my_product[ctr].name.equalsIgnoreCase(product.name)){
+                    tempString = my_product[ctr].name;
+                    product.qty += my_product[ctr].qty;
+                }
+            }
+
+            eraseContentFile(record_fp);
+
+            try(FileWriter writer = new FileWriter(record_fp, true)) {
+                for(int i=0; i<=ctr; i++){    
+                    if(!tempString.equalsIgnoreCase(my_product[i].name)){ 
+                        writer.write("Product Name: " + my_product[i].name + '\n');
+                        writer.write("Expiration Date: " + my_product[i].exp_date + '\n');
+                        writer.write("Quantity: " + String.valueOf(my_product[i].qty) + "\n\n");   
+                    }
+                } 
+                writer.close();   
+            } catch (Exception e) {
+            }                         
+        } catch (Exception e) {
+        }
+
+        Main.console.nextLine();
+        try(FileWriter writer = new FileWriter(record_fp, true)){
+            writer.write("Product Name: " + product.name + '\n');
+            writer.write("Expiration Date: " + product.exp_date + '\n');
+            writer.write("Quantity: " + String.valueOf(product.qty) + "\n\n");
+            writer.close();
 
             recordExpirationDateProduct(product.exp_date, product.name, product.qty);
         } catch (IOException e) {
@@ -212,6 +259,15 @@ public class DataManager {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+
+    public static void eraseContentFile(File file){
+        try(FileWriter writer = new FileWriter(file)){
+            writer.write("");
+            writer.close();
+        } catch (Exception e) {
         }
     }
 }
