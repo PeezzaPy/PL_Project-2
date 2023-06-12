@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class DataManager {
     static String inventory_dir = "C:\\Users\\ASUS\\Desktop\\PL_Project-2\\product\\";
@@ -102,12 +103,12 @@ public class DataManager {
     }
 
 
-    public static void recordExpirationDateProduct(String prod_exp_date, String prod_name, int prod_qty){
+    public static void recordExpirationDateProduct(Inventory product){
         Inventory[] my_product = new Inventory[Category.category.length];
         boolean isExist = false;
         ctr = -1;
 
-        File recordExpDate_fp = new File (expDateProduct_dir + prod_exp_date + ".txt");
+        File recordExpDate_fp = new File (expDateProduct_dir + product.exp_date + ".txt");
         try {
             if(!recordExpDate_fp.exists())
                 recordExpDate_fp.createNewFile();
@@ -128,23 +129,26 @@ public class DataManager {
                 
                 reader.readLine();
 
-                if(my_product[ctr].name.equalsIgnoreCase(prod_name)){
-                    my_product[ctr].qty = prod_qty;
+                if(my_product[ctr].name.equalsIgnoreCase(product.name)){
+                    my_product[ctr].qty += product.qty;
                     isExist = true;
-                }
+                }  
+            }
+            if(isExist == false){
+                my_product[++ctr] = product;
+                if(ctr > 0)
+                    my_product = sort(my_product);
             }
 
             eraseContentFile(recordExpDate_fp);
 
             try(FileWriter writer = new FileWriter(recordExpDate_fp, true)) {
-                for(int i=0; i<=ctr; i++){   
-                    writer.write("Product Name: " + my_product[i].name + '\n');
-                    writer.write("Quantity: " + String.valueOf(my_product[i].qty) + "\n\n");   
+                for(Inventory item : my_product){   
+                    if(item != null){
+                        writer.write("Product Name: " + item.name + '\n');
+                        writer.write("Quantity: " + String.valueOf(item.qty) + "\n\n");   
+                    }
                 } 
-                if(isExist == false){
-                writer.write("Product Name: " + prod_name + '\n');
-                writer.write("Quantity: " + String.valueOf(prod_qty) + "\n\n");  
-                }
                 writer.close();   
             } catch (Exception e) {
             }                         
@@ -155,7 +159,6 @@ public class DataManager {
 
     public static void recordProduct(Inventory product){
         Inventory[] my_product = new Inventory[Category.category.length];
-        int tempQty = 0;
         boolean isExist = false;
         ctr = -1;
 
@@ -186,23 +189,23 @@ public class DataManager {
 
                 if(my_product[ctr].name.equalsIgnoreCase(product.name)){
                     my_product[ctr].qty += product.qty;
-                    tempQty = my_product[ctr].qty;
                     isExist = true;
                 }
+            }
+            if(isExist == false){
+                my_product[++ctr] = product;
+                my_product = sort(my_product);
             }
 
             eraseContentFile(record_fp);
 
             try(FileWriter writer = new FileWriter(record_fp, true)) {
-                for(int i=0; i<=ctr; i++){    
-                    writer.write("Product Name: " + my_product[i].name + '\n');
-                    writer.write("Expiration Date: " + my_product[i].exp_date + '\n');
-                    writer.write("Quantity: " + String.valueOf(my_product[i].qty) + "\n\n");       
-                }  
-                if(isExist == false){
-                    writer.write("Product Name: " + product.name + '\n');
-                    writer.write("Expiration Date: " + product.exp_date + '\n');
-                    writer.write("Quantity: " + String.valueOf(product.qty) + "\n\n"); 
+                for (Inventory item : my_product){
+                    if(item != null){
+                        writer.write("Product Name: " + item.name + '\n');
+                        writer.write("Expiration Date: " + item.exp_date + '\n');
+                        writer.write("Quantity: " + String.valueOf(item.qty) + "\n\n");     
+                    }  
                 }
                 writer.close();   
             } catch (Exception e) {
@@ -210,10 +213,7 @@ public class DataManager {
         } catch (Exception e) {
         }
 
-        if(isExist == true)
-            recordExpirationDateProduct(product.exp_date, product.name, tempQty);
-        else
-            recordExpirationDateProduct(product.exp_date, product.name, product.qty);
+        recordExpirationDateProduct(product);
     }
 
 
@@ -301,7 +301,21 @@ public class DataManager {
     }
 
 
-    public static void sort(Inventory[] productSort){
-        
+    public static Inventory[] sort(Inventory[] productSort){
+        Arrays.sort(productSort, new Comparator<Inventory>(){
+            public int compare(Inventory p1, Inventory p2){
+                if(p1 == null && p2 == null){
+                    return 0;
+                } else if (p1 == null) {
+                    return 1;
+                } else if (p2 == null) {
+                    return -1;
+                } else {
+                    return p1.name.compareToIgnoreCase(p2.name);
+                }
+            }
+        });
+
+        return productSort;
     }
 }

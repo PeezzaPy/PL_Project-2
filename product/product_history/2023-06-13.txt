@@ -1,0 +1,4 @@
+Product Name: CHIPPY
+Expiration Date: 2024-06-13
+Quantity: 10
+

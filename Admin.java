@@ -51,9 +51,18 @@ public class Admin {
                     addProduct(product);
                 else       // if exist update the product 
                     updateProduct(product, pos);
-                
-                DataManager.save();
-                DataManager.recordProduct(product);
+
+                // recording data to history
+                if(pos == -1){
+                    if(product.qty <= 50)
+                        DataManager.recordProduct(product);
+                }
+                else {
+                    if(pos != -1 && (Main.my_inv[pos].qty + product.qty) <= 50)
+                        DataManager.recordProduct(product);
+                }
+                DataManager.save();         // save
+
             }
             else if(Main.choice == 2)
                 display();
@@ -75,10 +84,16 @@ public class Admin {
             System.out.println("ARRAY IS FULL\n");
         }
         else {
-            Main.marker++;
-            Main.my_inv[Main.marker] = new Inventory();
-            Main.my_inv[Main.marker] = new Inventory(my_product.category, my_product.name, my_product.date, my_product.exp_date, my_product.orig_price, my_product.qty, my_product.retail_price);
-            Main.my_inv[Main.marker].profit = Main.my_inv[Main.marker].total_sales_amount - Main.my_inv[Main.marker].total_price;
+            if(my_product.qty <= 50){
+                Main.marker++;
+                Main.my_inv[Main.marker] = new Inventory();
+                Main.my_inv[Main.marker] = new Inventory(my_product.category, my_product.name, my_product.date, my_product.exp_date, my_product.orig_price, my_product.qty, my_product.retail_price);
+                Main.my_inv[Main.marker].profit = Main.my_inv[Main.marker].total_sales_amount - Main.my_inv[Main.marker].total_price;
+            }
+            else {
+                System.out.println("QUANTITY LIMIT EXCEEDED");
+                console.nextLine();
+            }
         }
     }   
 
