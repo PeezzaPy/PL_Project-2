@@ -4,7 +4,7 @@ import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.time.LocalDate;
-
+import java.util.Arrays;
 
 public class DataManager {
     static String inventory_dir = "C:\\Users\\ASUS\\Desktop\\PL_Project-2\\product\\";
@@ -12,196 +12,9 @@ public class DataManager {
     static String expProductHistory_dir = "C:\\Users\\ASUS\\Desktop\\PL_Project-2\\product\\expired_history\\";
     static String expDateProduct_dir = "C:\\Users\\ASUS\\Desktop\\PL_Project-2\\product\\expiration_date_product\\";
     static String data_line, time = "";
-
-    public static void save(){
-        File inventory_fp = new File(inventory_dir + "inventory.txt");
-        try {
-            if(!inventory_fp.exists())  
-                inventory_fp.createNewFile();
-        } catch (Exception e){
-        }
-
-        try (FileWriter writer = new FileWriter(inventory_fp)){
-            for(Inventory product : Main.my_inv){
-                if(product != null){
-                    writer.write(product.category + '\n');
-
-                    writer.write(product.date + '\n');
-
-                    writer.write(product.name + '\n');
-
-                    writer.write(product.exp_date + '\n');
-
-                    writer.write(String.valueOf(product.orig_price));
-                    writer.write(' ');
-
-                    writer.write(String.valueOf(product.qty));
-                    writer.write(' ');
-
-                    writer.write(String.valueOf(product.total_price));
-                    writer.write(' ');
-
-                    writer.write(String.valueOf(product.retail_price));
-                    writer.write(' ');
-
-                    writer.write(String.valueOf(product.sales_qty));
-                    writer.write(' ');
-
-                    writer.write(String.valueOf(product.total_sales_amount));
-                    writer.write(' ');
-
-                    writer.write(String.valueOf(product.profit));
-                    writer.write("\n\n");
-                }
-            }
-            writer.close();
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-    }
+    static int colonIndex, ctr;
 
 
-    public static void retrieve(){
-        Inventory my_product = new Inventory();
-        String inventory_fp = inventory_dir + "inventory.txt";
-
-        try(BufferedReader reader = new BufferedReader(new FileReader(inventory_fp))){        
-            while((data_line = reader.readLine()) != null){
-                my_product.category = data_line;
-                my_product.date = reader.readLine();
-                my_product.name = reader.readLine();
-                my_product.exp_date = reader.readLine();
-
-                String line = reader.readLine();
-                if(line != null){
-                    try {
-                        String[] product_data = line.split(" ");
-                        my_product.orig_price = Double.parseDouble(product_data[0]);
-                        my_product.qty = Integer.parseInt(product_data[1]);
-                        my_product.total_price = Double.parseDouble(product_data[2]);
-                        my_product.retail_price = Double.parseDouble(product_data[3]);
-                        my_product.sales_qty = Integer.parseInt(product_data[4]);
-                        my_product.total_sales_amount = Double.parseDouble(product_data[5]);
-                        my_product.profit = Double.parseDouble(product_data[6]);
-
-                        Admin.addProduct(my_product);
-                    } catch (NumberFormatException e) {
-                        System.err.println("\n\nInvalid numeric value in the file: " + e.getMessage());
-                    }
-                } 
-                reader.readLine();
-            }
-            reader.close();
-        } catch(IOException e){
-        }
-    }
-
-
-    public static void recordProduct(Inventory product){
-        Inventory[] my_product = new Inventory[Category.category.length];
-        int colonIndex, ctr = -1;
-        String tempString = "";
-
-        File record_fp = new File (productHistory_dir + product.date + ".txt");    
-        try {
-            if(!record_fp.exists())
-                record_fp.createNewFile();
-        } catch (Exception e){
-        }
-
-        try(BufferedReader reader = new BufferedReader(new FileReader(record_fp))){
-            while((data_line = reader.readLine()) != null){
-                ctr++;
-                my_product[ctr] = new Inventory();      // initialize first
-
-                colonIndex = data_line.indexOf(":");
-                my_product[ctr].name = data_line.substring(colonIndex + 1).trim();
-                
-                data_line = reader.readLine();
-                colonIndex = data_line.indexOf(":");
-                my_product[ctr].exp_date = data_line.substring(colonIndex + 1).trim();
-
-                data_line = reader.readLine();
-                colonIndex = data_line.indexOf(":");
-                my_product[ctr].qty = Integer.parseInt(data_line.substring(colonIndex + 1).trim());
-                
-                reader.readLine();
-
-                System.out.println("\n\n" + my_product[ctr].name + '\n' + my_product[ctr].exp_date + '\n' + my_product[ctr].qty);
-
-                if(my_product[ctr].name.equalsIgnoreCase(product.name)){
-                    tempString = my_product[ctr].name;
-                    product.qty += my_product[ctr].qty;
-                }
-            }
-
-            eraseContentFile(record_fp);
-
-            try(FileWriter writer = new FileWriter(record_fp, true)) {
-                for(int i=0; i<=ctr; i++){    
-                    if(!tempString.equalsIgnoreCase(my_product[i].name)){ 
-                        writer.write("Product Name: " + my_product[i].name + '\n');
-                        writer.write("Expiration Date: " + my_product[i].exp_date + '\n');
-                        writer.write("Quantity: " + String.valueOf(my_product[i].qty) + "\n\n");   
-                    }
-                } 
-                writer.close();   
-            } catch (Exception e) {
-            }                         
-        } catch (Exception e) {
-        }
-
-        Main.console.nextLine();
-        try(FileWriter writer = new FileWriter(record_fp, true)){
-            writer.write("Product Name: " + product.name + '\n');
-            writer.write("Expiration Date: " + product.exp_date + '\n');
-            writer.write("Quantity: " + String.valueOf(product.qty) + "\n\n");
-            writer.close();
-
-            recordExpirationDateProduct(product.exp_date, product.name, product.qty);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    public static void recordExpirationDateProduct(String prod_exp_date, String prod_name, int prod_qty){
-        File recordExpDate_fp = new File (expDateProduct_dir + prod_exp_date + ".txt");
-
-        try {
-            if(!recordExpDate_fp.exists())
-                recordExpDate_fp.createNewFile();
-        } catch (Exception e) {
-        }
-
-        try (FileWriter fileWriter = new FileWriter(recordExpDate_fp, true)){
-            fileWriter.write(prod_name + '\n');
-            fileWriter.write(String.valueOf(prod_qty) + "\n\n");
-
-            fileWriter.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    public static void delProduct(int indexPosition){
-        System.out.println(Main.marker);
-
-        if(indexPosition == Main.marker)
-            Main.my_inv[indexPosition] = null;
-        else {
-            for(int i=indexPosition; i<Main.marker; i++){
-                Main.my_inv[indexPosition] = new Inventory();
-                Main.my_inv[indexPosition] = Main.my_inv[indexPosition+1];
-            }
-            Main.my_inv[Main.marker] = null;
-        }
-        Main.marker--;
-        System.out.println(Main.marker);
-    }
-
-    
     public static void delExpiredProduct(){
         String prod_name = "";
         int prod_qty = 0;
@@ -263,11 +76,232 @@ public class DataManager {
     }
 
 
+    public static void delProduct(int indexPosition){
+        System.out.println(Main.marker);
+
+        if(indexPosition == Main.marker)
+            Main.my_inv[indexPosition] = null;
+        else {
+            for(int i=indexPosition; i<Main.marker; i++){
+                Main.my_inv[indexPosition] = new Inventory();
+                Main.my_inv[indexPosition] = Main.my_inv[indexPosition+1];
+            }
+            Main.my_inv[Main.marker] = null;
+        }
+        Main.marker--;
+        System.out.println(Main.marker);
+    }
+
+
     public static void eraseContentFile(File file){
         try(FileWriter writer = new FileWriter(file)){
             writer.write("");
             writer.close();
         } catch (Exception e) {
         }
+    }
+
+
+    public static void recordExpirationDateProduct(String prod_exp_date, String prod_name, int prod_qty){
+        Inventory[] my_product = new Inventory[Category.category.length];
+        boolean isExist = false;
+        ctr = -1;
+
+        File recordExpDate_fp = new File (expDateProduct_dir + prod_exp_date + ".txt");
+        try {
+            if(!recordExpDate_fp.exists())
+                recordExpDate_fp.createNewFile();
+        } catch (Exception e) {
+        }
+
+        try(BufferedReader reader = new BufferedReader(new FileReader(recordExpDate_fp))){
+            while((data_line = reader.readLine()) != null){
+                ctr++;
+                my_product[ctr] = new Inventory();      // initialize first
+
+                colonIndex = data_line.indexOf(":");
+                my_product[ctr].name = data_line.substring(colonIndex + 1).trim();
+                
+                data_line = reader.readLine();
+                colonIndex = data_line.indexOf(":");
+                my_product[ctr].qty = Integer.parseInt(data_line.substring(colonIndex + 1).trim());
+                
+                reader.readLine();
+
+                if(my_product[ctr].name.equalsIgnoreCase(prod_name)){
+                    my_product[ctr].qty = prod_qty;
+                    isExist = true;
+                }
+            }
+
+            eraseContentFile(recordExpDate_fp);
+
+            try(FileWriter writer = new FileWriter(recordExpDate_fp, true)) {
+                for(int i=0; i<=ctr; i++){   
+                    writer.write("Product Name: " + my_product[i].name + '\n');
+                    writer.write("Quantity: " + String.valueOf(my_product[i].qty) + "\n\n");   
+                } 
+                if(isExist == false){
+                writer.write("Product Name: " + prod_name + '\n');
+                writer.write("Quantity: " + String.valueOf(prod_qty) + "\n\n");  
+                }
+                writer.close();   
+            } catch (Exception e) {
+            }                         
+        } catch (Exception e) {
+        }
+    }
+
+
+    public static void recordProduct(Inventory product){
+        Inventory[] my_product = new Inventory[Category.category.length];
+        int tempQty = 0;
+        boolean isExist = false;
+        ctr = -1;
+
+        File record_fp = new File (productHistory_dir + product.date + ".txt");    
+        try {
+            if(!record_fp.exists())
+                record_fp.createNewFile();
+        } catch (Exception e){
+        }
+
+        try(BufferedReader reader = new BufferedReader(new FileReader(record_fp))){
+            while((data_line = reader.readLine()) != null){
+                ctr++;
+                my_product[ctr] = new Inventory();      // initialize first
+
+                colonIndex = data_line.indexOf(":");
+                my_product[ctr].name = data_line.substring(colonIndex + 1).trim();
+                
+                data_line = reader.readLine();
+                colonIndex = data_line.indexOf(":");
+                my_product[ctr].exp_date = data_line.substring(colonIndex + 1).trim();
+
+                data_line = reader.readLine();
+                colonIndex = data_line.indexOf(":");
+                my_product[ctr].qty = Integer.parseInt(data_line.substring(colonIndex + 1).trim());
+                
+                reader.readLine();
+
+                if(my_product[ctr].name.equalsIgnoreCase(product.name)){
+                    my_product[ctr].qty += product.qty;
+                    tempQty = my_product[ctr].qty;
+                    isExist = true;
+                }
+            }
+
+            eraseContentFile(record_fp);
+
+            try(FileWriter writer = new FileWriter(record_fp, true)) {
+                for(int i=0; i<=ctr; i++){    
+                    writer.write("Product Name: " + my_product[i].name + '\n');
+                    writer.write("Expiration Date: " + my_product[i].exp_date + '\n');
+                    writer.write("Quantity: " + String.valueOf(my_product[i].qty) + "\n\n");       
+                }  
+                if(isExist == false){
+                    writer.write("Product Name: " + product.name + '\n');
+                    writer.write("Expiration Date: " + product.exp_date + '\n');
+                    writer.write("Quantity: " + String.valueOf(product.qty) + "\n\n"); 
+                }
+                writer.close();   
+            } catch (Exception e) {
+            }                         
+        } catch (Exception e) {
+        }
+
+        if(isExist == true)
+            recordExpirationDateProduct(product.exp_date, product.name, tempQty);
+        else
+            recordExpirationDateProduct(product.exp_date, product.name, product.qty);
+    }
+
+
+    public static void retrieve(){
+        Inventory my_product = new Inventory();
+        String inventory_fp = inventory_dir + "inventory.txt";
+
+        try(BufferedReader reader = new BufferedReader(new FileReader(inventory_fp))){        
+            while((data_line = reader.readLine()) != null){
+                my_product.category = data_line;
+                my_product.date = reader.readLine();
+                my_product.name = reader.readLine();
+                my_product.exp_date = reader.readLine();
+
+                String line = reader.readLine();
+                if(line != null){
+                    try {
+                        String[] product_data = line.split(" ");
+                        my_product.orig_price = Double.parseDouble(product_data[0]);
+                        my_product.qty = Integer.parseInt(product_data[1]);
+                        my_product.total_price = Double.parseDouble(product_data[2]);
+                        my_product.retail_price = Double.parseDouble(product_data[3]);
+                        my_product.sales_qty = Integer.parseInt(product_data[4]);
+                        my_product.total_sales_amount = Double.parseDouble(product_data[5]);
+                        my_product.profit = Double.parseDouble(product_data[6]);
+
+                        Admin.addProduct(my_product);
+                    } catch (NumberFormatException e) {
+                        System.err.println("\n\nInvalid numeric value in the file: " + e.getMessage());
+                    }
+                } 
+                reader.readLine();
+            }
+            reader.close();
+        } catch(IOException e){
+        }
+    }
+
+
+    public static void save(){
+        File inventory_fp = new File(inventory_dir + "inventory.txt");
+        try {
+            if(!inventory_fp.exists())  
+                inventory_fp.createNewFile();
+        } catch (Exception e){
+        }
+
+        try (FileWriter writer = new FileWriter(inventory_fp)){
+            for(Inventory product : Main.my_inv){
+                if(product != null){
+                    writer.write(product.category + '\n');
+
+                    writer.write(product.date + '\n');
+
+                    writer.write(product.name + '\n');
+
+                    writer.write(product.exp_date + '\n');
+
+                    writer.write(String.valueOf(product.orig_price));
+                    writer.write(' ');
+
+                    writer.write(String.valueOf(product.qty));
+                    writer.write(' ');
+
+                    writer.write(String.valueOf(product.total_price));
+                    writer.write(' ');
+
+                    writer.write(String.valueOf(product.retail_price));
+                    writer.write(' ');
+
+                    writer.write(String.valueOf(product.sales_qty));
+                    writer.write(' ');
+
+                    writer.write(String.valueOf(product.total_sales_amount));
+                    writer.write(' ');
+
+                    writer.write(String.valueOf(product.profit));
+                    writer.write("\n\n");
+                }
+            }
+            writer.close();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+
+    public static void sort(Inventory[] productSort){
+        
     }
 }

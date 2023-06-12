@@ -1,0 +1,16 @@
+Product Name: ARGENTINA
+Expiration Date: 2023-12-12
+Quantity: 5
+
+Product Name: COCA COLA
+Expiration Date: 2023-12-12
+Quantity: 10
+
+Product Name: MANGO
+Expiration Date: 2023-06-19
+Quantity: 12
+
+Product Name: DELIMONDO
+Expiration Date: 2023-12-12
+Quantity: 4
+
