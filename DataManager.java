@@ -8,10 +8,10 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 public class DataManager {
-    static String inventory_dir = "C:\\Users\\ASUS\\Desktop\\PL_Project-2\\product\\";
-    static String productHistory_dir = "C:\\Users\\ASUS\\Desktop\\PL_Project-2\\product\\product_history\\";
-    static String expProductHistory_dir = "C:\\Users\\ASUS\\Desktop\\PL_Project-2\\product\\expired_history\\";
-    static String expDateProduct_dir = "C:\\Users\\ASUS\\Desktop\\PL_Project-2\\product\\expiration_date_product\\";
+    final static String inventory_dir = "C:\\Users\\ASUS\\Desktop\\PROJECT_PL\\PL_Project-2\\product\\inventory.txt";
+    final static String productHistory_dir = "C:\\Users\\ASUS\\Desktop\\PROJECT_PL\\PL_Project-2\\product\\product_history\\";
+    final static String expProductHistory_dir = "C:\\Users\\ASUS\\Desktop\\PROJECT_PL\\PL_Project-2\\product\\expired_history\\";
+    final static String expDateProduct_dir = "C:\\Users\\ASUS\\Desktop\\PROJECT_PL\\PL_Project-2\\product\\expiration_date_product\\";
     static String data_line, time = "";
     static int colonIndex, ctr;
 
@@ -163,6 +163,7 @@ public class DataManager {
         ctr = -1;
 
         File record_fp = new File (productHistory_dir + product.date + ".txt");    
+
         try {
             if(!record_fp.exists())
                 record_fp.createNewFile();
@@ -219,9 +220,8 @@ public class DataManager {
 
     public static void retrieve(){
         Inventory my_product = new Inventory();
-        String inventory_fp = inventory_dir + "inventory.txt";
 
-        try(BufferedReader reader = new BufferedReader(new FileReader(inventory_fp))){        
+        try(BufferedReader reader = new BufferedReader(new FileReader(inventory_dir))){        
             while((data_line = reader.readLine()) != null){
                 my_product.category = data_line;
                 my_product.date = reader.readLine();
@@ -254,7 +254,7 @@ public class DataManager {
 
 
     public static void save(){
-        File inventory_fp = new File(inventory_dir + "inventory.txt");
+        File inventory_fp = new File(inventory_dir);
         try {
             if(!inventory_fp.exists())  
                 inventory_fp.createNewFile();

@@ -38,6 +38,10 @@ public class Admin {
                 product.orig_price = console.nextDouble();
                 System.out.print("Quantity: ");
                 product.qty = console.nextInt();
+
+                // set total priice
+                product.total_price = product.qty * product.orig_price;
+
                 System.out.print("Retail price (each): ");
                 product.retail_price = console.nextDouble();    
                 // Get the current date/time
@@ -47,20 +51,16 @@ public class Admin {
 
                 // locate if already exist or not
                 pos = Main.locateProduct(product);
-                if(pos == -1)
+                if(pos == -1){
+                    product.profit = product.total_price * -1;
                     addProduct(product);
+                }
                 else       // if exist update the product 
                     updateProduct(product, pos);
 
                 // recording data to history
-                if(pos == -1){
-                    if(product.qty <= 50)
-                        DataManager.recordProduct(product);
-                }
-                else {
-                    if(pos != -1 && (Main.my_inv[pos].qty + product.qty) <= 50)
-                        DataManager.recordProduct(product);
-                }
+                DataManager.recordProduct(product);
+                
                 DataManager.save();         // save
 
             }
@@ -87,8 +87,7 @@ public class Admin {
             if(my_product.qty <= 50){
                 Main.marker++;
                 Main.my_inv[Main.marker] = new Inventory();
-                Main.my_inv[Main.marker] = new Inventory(my_product.category, my_product.name, my_product.date, my_product.exp_date, my_product.orig_price, my_product.qty, my_product.retail_price);
-                Main.my_inv[Main.marker].profit = Main.my_inv[Main.marker].total_sales_amount - Main.my_inv[Main.marker].total_price;
+                Main.my_inv[Main.marker] = new Inventory(my_product.category, my_product.name, my_product.date, my_product.exp_date, my_product.orig_price, my_product.total_price, my_product.qty, my_product.retail_price, my_product.profit);
             }
             else {
                 System.out.println("QUANTITY LIMIT EXCEEDED");
@@ -104,8 +103,14 @@ public class Admin {
             console.nextLine();
         }
         else
-            Main.my_inv[indexPos] = new Inventory(my_product.category, my_product.name, my_product.date, my_product.exp_date, my_product.orig_price, (Main.my_inv[indexPos].qty + my_product.qty), my_product.retail_price);
-    }
+            Main.my_inv[indexPos].date = my_product.date;
+            Main.my_inv[indexPos].exp_date = my_product.exp_date;
+            Main.my_inv[indexPos].orig_price = my_product.orig_price;
+            Main.my_inv[indexPos].qty += my_product.qty;
+            Main.my_inv[indexPos].total_price = my_product.orig_price * Main.my_inv[indexPos].qty;
+            Main.my_inv[indexPos].retail_price = my_product.retail_price;
+            Main.my_inv[indexPos].profit -= my_product.qty * my_product.orig_price;
+        }
 
     static void display(){
         Terminal.clearScreen();
