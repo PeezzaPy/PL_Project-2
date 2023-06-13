@@ -5,9 +5,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class Security {
+    final private static String key_dir = "C:\\Users\\ASUS\\Desktop\\Key\\key.txt";
     final private static String admin_fp = "adminacc";
     final private static String cashier_fp = "cashieracc";
-    final public static String secret_key = "key";
     public static String previous_key;
 
 
@@ -34,7 +34,7 @@ public class Security {
 
     
     public static void changeSecretKey(int my_secretKey){ 
-        try(FileWriter writer = new FileWriter(Authen.account_dir + secret_key + ".txt")){
+        try(FileWriter writer = new FileWriter(key_dir)){
             writer.write(Integer.toString(my_secretKey));  
             writer.close();      
         } catch (IOException e){
@@ -43,7 +43,7 @@ public class Security {
 
 
     public static int getSecretKey(){
-        try(BufferedReader reader = new BufferedReader(new FileReader(Authen.account_dir + secret_key + ".txt"))){
+        try(BufferedReader reader = new BufferedReader(new FileReader(key_dir))){
             String data = reader.readLine();
             reader.close();
             return Integer.parseInt(data);

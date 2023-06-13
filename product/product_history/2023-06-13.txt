@@ -1,6 +1,16 @@
+Product Name: CHIPPY
+Expiration Date: 2024-06-13
+Quantity: 12
+
 Product Name: COCA COLA
 Expiration Date: 2023-12-13
-Quantity: 13
+Quantity: 8
 
+Product Name: KANG KONG
+Expiration Date: 2023-06-14
+Quantity: 7
 
+Product Name: MANGO
+Expiration Date: 2023-06-20
+Quantity: 5
 

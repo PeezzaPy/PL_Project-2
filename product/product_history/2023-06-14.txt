@@ -1,0 +1,12 @@
+Product Name: KANG KONG
+Expiration Date: 2023-06-15
+Quantity: 9
+
+Product Name: MALUNGGAY
+Expiration Date: 2023-06-15
+Quantity: 3
+
+Product Name: MANGO
+Expiration Date: 2023-06-21
+Quantity: 4
+

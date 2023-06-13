@@ -17,7 +17,7 @@ public class DataManager {
 
 
     public static void delExpiredProduct(){
-        String prod_name = "";
+        String prod_name;
         int prod_qty = 0;
         double prod_profit_loss = 0.0;
         LocalDate currentDate = LocalDate.now();
@@ -26,20 +26,23 @@ public class DataManager {
         String exp_history = expProductHistory_dir + date + ".txt";
 
         if(new File(expDateProd_history).exists()){
-
             try(BufferedReader reader = new BufferedReader(new FileReader(expDateProd_history))){
                 while((data_line = reader.readLine()) != null){
-                    prod_name = data_line;
-                    prod_qty = Integer.parseInt(reader.readLine());
+                    colonIndex = data_line.indexOf(":");
+                    prod_name = data_line.substring(colonIndex + 1).trim();
+
+                    data_line = reader.readLine();
+                    colonIndex = data_line.indexOf(":");
+                    prod_qty = Integer.parseInt(data_line.substring(colonIndex + 1).trim());
+
                     reader.readLine();
 
                     for(int i=0; i<=Main.marker; i++){
                         if(prod_name.equalsIgnoreCase(Main.my_inv[i].name)){
                             Main.my_inv[i].qty -= prod_qty;
                             Main.my_inv[i].total_price = Main.my_inv[i].qty * Main.my_inv[i].orig_price;
+                            Main.my_inv[i].profit -= prod_qty * Main.my_inv[i].orig_price;
                             prod_profit_loss = prod_qty * Main.my_inv[i].orig_price;
-                            Main.my_inv[i].profit -= prod_profit_loss;
-
                             if(Main.my_inv[i].qty == 0){
                                 delProduct(i);
                                 break;
@@ -59,7 +62,6 @@ public class DataManager {
                     // record the expired and deleted product
                     try(FileWriter fileWriter = new FileWriter(expRecord_fp, true)) {
                         time = DateManager.setTime();
-                        fileWriter.write("Time recorded: " + String.valueOf(time) + '\n');
                         fileWriter.write("Product Name: " + prod_name + '\n');
                         fileWriter.write("Quantity: " + String.valueOf(prod_qty) + '\n');
                         fileWriter.write("Profit Loss: " + Double.valueOf(prod_profit_loss) + "\n\n");
@@ -254,6 +256,8 @@ public class DataManager {
 
 
     public static void save(){
+        sort(Main.my_inv);
+
         File inventory_fp = new File(inventory_dir);
         try {
             if(!inventory_fp.exists())  

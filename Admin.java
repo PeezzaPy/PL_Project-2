@@ -271,8 +271,8 @@ public class Admin {
                         String new_admin_fp = Security.encrypt(Security.getAdminFileName(), Security.getSecretKey());
                         String new_cashier_fp = Security.encrypt(Security.getCashierFileName(), Security.getSecretKey());
                         
-                        Security.renameFile("C:\\Users\\ASUS\\Desktop\\PL_Project-2\\account\\" + old_admin_fp + ".txt", "C:\\Users\\ASUS\\Desktop\\PL_Project-2\\account\\" + new_admin_fp + ".txt");
-                        Security.renameFile("C:\\Users\\ASUS\\Desktop\\PL_Project-2\\account\\" + old_cashier_fp + ".txt", "C:\\Users\\ASUS\\Desktop\\PL_Project-2\\account\\" + new_cashier_fp + ".txt");
+                        Security.renameFile(Authen.account_dir + old_admin_fp + ".txt", Authen.account_dir + new_admin_fp + ".txt");
+                        Security.renameFile(Authen.account_dir + old_cashier_fp + ".txt", Authen.account_dir + new_cashier_fp + ".txt");
                         
                         Authen.saveAccount();
                     }

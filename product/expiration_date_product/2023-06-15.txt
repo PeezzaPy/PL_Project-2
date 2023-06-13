@@ -1,0 +1,6 @@
+Product Name: KANG KONG
+Quantity: 11
+
+Product Name: MALUNGGAY
+Quantity: 3
+
