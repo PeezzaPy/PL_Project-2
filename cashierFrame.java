@@ -167,7 +167,7 @@ public class  cashierFrame implements ActionListener, KeyListener {
                 int y = (i+1)*20;
                 p1[i].setBounds(650,70+y,200,30);
                 p1[i].setLayout(null);
-             
+
                 pprice = pprice + Main.customerReceipt[i].totalPrice;
 
                 totalPrice.setText("TOTAL: " + pprice);
@@ -196,8 +196,8 @@ public class  cashierFrame implements ActionListener, KeyListener {
                 int qty = Integer.parseInt(productQuantity.getText());
                 System.out.println(qty);
 
-                resibo.productName=name.toUpperCase();
-                resibo.quantity = qty;
+                customerReceipt.productName=name.toUpperCase();
+                customerReceipt.quantity = qty;
 
                 product.name = customerReceipt.productName;
                 if(inventoryPos == -1){
@@ -250,9 +250,9 @@ public class  cashierFrame implements ActionListener, KeyListener {
 
     }
 
-    static void addToReceipt(Receipt resibo) {
+    static void addToReceipt(Receipt customerReceipt) {
         receiptMarker++;
-        Main.customerReceipt[receiptMarker] = new Receipt(resibo.productName, resibo.quantity, resibo.price, resibo.totalPrice);
+        Main.customerReceipt[receiptMarker] = new Receipt(customerReceipt.productName, customerReceipt.quantity, customerReceipt.price, customerReceipt.totalPrice);
 
 
     }
