@@ -1,0 +1,3 @@
+Product Name: MILKY
+Quantity: 12
+

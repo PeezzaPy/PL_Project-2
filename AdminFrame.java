@@ -536,8 +536,10 @@ public class AdminFrame implements ActionListener{
 
                 Admin.addProduct(product);
             }
-            else       // if exist update the product
+            else{// if exist update the product
                 Admin.updateProduct(product, pos);
+            }
+
 
             // recording data to history
             DataManager.recordProduct(product);

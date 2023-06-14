@@ -1,0 +1,15 @@
+Product Name: GATAS
+Quantity: 10
+
+Product Name: JACKFRUIT
+Quantity: 12
+
+Product Name: MANGO
+Quantity: 4
+
+Product Name: ORANGE
+Quantity: 10
+
+Product Name: YOGURT
+Quantity: 10
+

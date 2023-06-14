@@ -1,0 +1,4 @@
+Product Name: MILKY
+Expiration Date: 2023-06-22
+Quantity: 12
+
