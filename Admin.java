@@ -52,7 +52,10 @@ public class Admin {
                 // locate if already exist or not
                 pos = Main.locateProduct(product);
                 if(pos == -1){
+                    product.sales_qty = 0;
+                    product.total_sales_amount = 0.0;
                     product.profit = product.total_price * -1;
+                    
                     addProduct(product);
                 }
                 else       // if exist update the product 
@@ -86,8 +89,7 @@ public class Admin {
         else {
             if(my_product.qty <= 50){
                 Main.marker++;
-                Main.my_inv[Main.marker] = new Inventory();
-                Main.my_inv[Main.marker] = new Inventory(my_product.category, my_product.name, my_product.date, my_product.exp_date, my_product.orig_price, my_product.total_price, my_product.qty, my_product.retail_price, my_product.profit);
+                Main.my_inv[Main.marker] = new Inventory(my_product.category, my_product.name, my_product.date, my_product.exp_date, my_product.orig_price, my_product.total_price, my_product.qty, my_product.retail_price, my_product.sales_qty, my_product.total_sales_amount, my_product.profit);
             }
             else {
                 System.out.println("QUANTITY LIMIT EXCEEDED");

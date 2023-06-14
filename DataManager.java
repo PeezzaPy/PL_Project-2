@@ -25,6 +25,7 @@ public class DataManager {
         String expDateProd_history = expDateProduct_dir + date + ".txt";
         String exp_history = expProductHistory_dir + date + ".txt";
 
+        // text file in expiration date folder with now/expired date
         if(new File(expDateProd_history).exists()){
             try(BufferedReader reader = new BufferedReader(new FileReader(expDateProd_history))){
                 while((data_line = reader.readLine()) != null){
@@ -70,7 +71,8 @@ public class DataManager {
                     }  
                 }
                 reader.close();
-                // delete the file to avoid redundancies
+
+                // delete the file in expiration date to avoid redundancies
                 new File(expDateProd_history).delete();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -80,11 +82,9 @@ public class DataManager {
 
 
     public static void delProduct(int indexPosition){
-        System.out.println(Main.marker);
-
-        if(indexPosition == Main.marker)
+        if(indexPosition == Main.marker)        // if last index
             Main.my_inv[indexPosition] = null;
-        else {
+        else {                  
             for(int i=indexPosition; i<Main.marker; i++){
                 Main.my_inv[indexPosition] = new Inventory();
                 Main.my_inv[indexPosition] = Main.my_inv[indexPosition+1];
@@ -92,7 +92,6 @@ public class DataManager {
             Main.my_inv[Main.marker] = null;
         }
         Main.marker--;
-        System.out.println(Main.marker);
     }
 
 
@@ -117,6 +116,7 @@ public class DataManager {
         } catch (Exception e) {
         }
 
+        // record the expiration date of the product
         try(BufferedReader reader = new BufferedReader(new FileReader(recordExpDate_fp))){
             while((data_line = reader.readLine()) != null){
                 ctr++;
@@ -172,6 +172,7 @@ public class DataManager {
         } catch (Exception e){
         }
 
+        // record the added product to the current date / product history
         try(BufferedReader reader = new BufferedReader(new FileReader(record_fp))){
             while((data_line = reader.readLine()) != null){
                 ctr++;
@@ -223,6 +224,7 @@ public class DataManager {
     public static void retrieve(){
         Inventory my_product = new Inventory();
 
+        // retrieve product from text file
         try(BufferedReader reader = new BufferedReader(new FileReader(inventory_dir))){        
             while((data_line = reader.readLine()) != null){
                 my_product.category = data_line;
@@ -250,6 +252,14 @@ public class DataManager {
                 reader.readLine();
             }
             reader.close();
+
+            for(Inventory item : Main.my_inv){
+                if(item != null){
+                System.out.println("\n" + item.name);
+                System.out.println(item.sales_qty);
+                }
+            }
+            Main.console.nextLine();
         } catch(IOException e){
         }
     }
@@ -265,6 +275,7 @@ public class DataManager {
         } catch (Exception e){
         }
 
+        // save product in text file
         try (FileWriter writer = new FileWriter(inventory_fp)){
             for(Inventory product : Main.my_inv){
                 if(product != null){
@@ -306,6 +317,7 @@ public class DataManager {
 
 
     public static Inventory[] sort(Inventory[] productSort){
+        // sorting alphabetically by product name
         Arrays.sort(productSort, new Comparator<Inventory>(){
             public int compare(Inventory p1, Inventory p2){
                 if(p1 == null && p2 == null){

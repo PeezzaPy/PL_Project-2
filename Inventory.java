@@ -26,7 +26,7 @@ public class Inventory {
         this.profit = 0.0;
     }
 
-    Inventory(String category, String name, String date, String exp_date, double orig_price, double total_price, int qty, double retail_price, double profit){
+    Inventory(String category, String name, String date, String exp_date, double orig_price, double total_price, int qty, double retail_price, int sales_qty, double total_sales_amount, double profit){
         this.category = category;
         this.name = name;
         this.date = date;
@@ -35,7 +35,8 @@ public class Inventory {
         this.qty = qty;
         this.total_price = total_price;
         this.retail_price = retail_price;
-        this.total_sales_amount = retail_price * this.sales_qty;
+        this.sales_qty = sales_qty;
+        this.total_sales_amount = total_sales_amount;
         this.profit = profit;
     }
 }

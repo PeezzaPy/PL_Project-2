@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 class Main {
     final static int MAX_INV = 100;
-    public static int i, marker, choice, loginChoice;
+    public static int i, marker, receiptMarker, choice, loginChoice;
     static boolean validInput, backToLogin;
     static Inventory[] my_inv = new Inventory[MAX_INV];
     static Receipt[] customerReceipt = new Receipt[MAX_INV];
@@ -76,8 +76,8 @@ class Main {
     }
     // Method Overload
     public static int locateProduct(Receipt my_product){
-        for(i=0; i<=marker; i++){
-            if(my_inv[i].name.equalsIgnoreCase(my_product.productName))
+        for(i=0; i<=Cashier.receiptMarker; i++){
+            if(customerReceipt[i].productName.equalsIgnoreCase(my_product.productName))
                 return i;
         }
         return -1;
