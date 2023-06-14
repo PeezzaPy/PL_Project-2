@@ -6,7 +6,7 @@ import java.io.BufferedReader;
 
 
 public class Authen {
-    final static String account_dir = "C:\\Users\\ASUS\\Desktop\\PROJECT_PL\\PL_Project-2\\account\\";
+    final static String account_dir = "E:\\java\\latest\\PL_Project-2\\account\\";
     static Scanner console = new Scanner(System.in);
     static String name, username, password, ename, eusern, epass; 
     static String admin_fp, cashier_fp;

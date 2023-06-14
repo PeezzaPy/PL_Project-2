@@ -12,28 +12,32 @@ class Main {
     static Account cashierAcc = new Account();
 
 
-    public static void main(String[] args){   
+    public static void main(String[] args){
+        AdminFrame adminframe = new AdminFrame();
+        cashierFrame Cashierframe = new cashierFrame();
+
+
         init(); 
         Authen.retrieveAccount();
         DataManager.retrieve();
         DataManager.delExpiredProduct();
+        //adminframe.admin();
 
-        while(true){
-            startMenu();
-            do {
-                switch(Authen.login()){
+                switch(loginFrame.login()){
                     case 0: break;
-                    case 1: Cashier.cashier();
+                    case 1: //Cashier.cashier();
+                            Cashierframe.cashier();
                             break;
-                    case 2: Admin.admin();
+                    case 2: //Admin.admin();
+                            adminframe.admin();
                             break;
                     
                     default: backToLogin = true;
                              System.out.println("\n\nINVALID USERNAME/PASSWORD \n");
                              console.nextLine();
                 }
-            } while(backToLogin == true);
-        }   
+
+
     }
 
     public static void startMenu(){

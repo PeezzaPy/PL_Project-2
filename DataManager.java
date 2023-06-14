@@ -8,10 +8,10 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 public class DataManager {
-    final static String inventory_dir = "C:\\Users\\ASUS\\Desktop\\PROJECT_PL\\PL_Project-2\\product\\inventory.txt";
-    final static String productHistory_dir = "C:\\Users\\ASUS\\Desktop\\PROJECT_PL\\PL_Project-2\\product\\product_history\\";
-    final static String expProductHistory_dir = "C:\\Users\\ASUS\\Desktop\\PROJECT_PL\\PL_Project-2\\product\\expired_history\\";
-    final static String expDateProduct_dir = "C:\\Users\\ASUS\\Desktop\\PROJECT_PL\\PL_Project-2\\product\\expiration_date_product\\";
+    final static String inventory_dir = "E:\\java\\latest\\PL_Project-2\\product\\inventory.txt";
+    final static String productHistory_dir = "E:\\java\\latest\\PL_Project-2\\product\\product_history\\";
+    final static String expProductHistory_dir = "E:\\java\\latest\\PL_Project-2\\product\\expired_history\\";
+    final static String expDateProduct_dir = "E:\\java\\latest\\PL_Project-2\\product\\expiration_date_product\\";
     static String data_line, time = "";
     static int colonIndex, ctr;
 
