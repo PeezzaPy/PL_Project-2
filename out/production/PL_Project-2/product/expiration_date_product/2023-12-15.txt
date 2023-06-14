@@ -1,3 +1,6 @@
 Product Name: WATER
 Quantity: 13
 
+Product Name: YAKULT
+Quantity: 10
+

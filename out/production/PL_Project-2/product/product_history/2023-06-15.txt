@@ -10,3 +10,7 @@ Product Name: WATER
 Expiration Date: 2023-12-15
 Quantity: 13
 
+Product Name: YAKULT
+Expiration Date: 2023-12-15
+Quantity: 10
+

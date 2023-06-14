@@ -170,9 +170,13 @@ public class AdminFrame implements ActionListener{
         refreshDisplayData();
 
         JTable table = new JTable(data, columnNames);
+        table.setEnabled(false);
+        //table.setPreferredSize(new Dimension(20,50));
+        table.setRowHeight(25);
 
         JScrollPane scp = new JScrollPane(table);
         scp.setBounds(20,250,830,200);
+
 
         //table.getTableHeader().setBounds(20,230,830,20);
         //table.setBounds(20,250,830,200);
@@ -546,6 +550,7 @@ public class AdminFrame implements ActionListener{
             DataManager.recordProduct(product);
 
             DataManager.save();
+            JOptionPane.showMessageDialog(null,"Product added successfully");
 
             refreshDisplayData();
 
@@ -607,6 +612,7 @@ public class AdminFrame implements ActionListener{
 
             Authen.saveAccount();
             newPasswordCashier.setText("");
+            JOptionPane.showMessageDialog(null,"Changed Succesfully!");
 
             cardLayout.show(cardsPanel,"settings");
         }
@@ -621,6 +627,7 @@ public class AdminFrame implements ActionListener{
             Main.cashierAcc = new Account(nameCashier, usernameCashier, passwordCashier);
             Authen.saveAccount();
             newUsernameCashier.setText("");
+            JOptionPane.showMessageDialog(null,"Changed Succesfully!");
 
             cardLayout.show(cardsPanel,"settings");
         }
@@ -633,7 +640,7 @@ public class AdminFrame implements ActionListener{
             passwordAdmin = newPasswordAdmin.getText();
 
             Main.adminAcc = new Account(nameAdmin, usernameAdmin, passwordAdmin);
-
+            JOptionPane.showMessageDialog(null,"Changed Succesfully!");
             newPasswordAdmin.setText("");
             Authen.saveAccount();
             cardLayout.show(cardsPanel,"settings");
@@ -646,7 +653,7 @@ public class AdminFrame implements ActionListener{
             usernameAdmin = newUsernameAdmin.getText();
 
             Main.adminAcc = new Account(nameAdmin, usernameAdmin, passwordAdmin);
-
+            JOptionPane.showMessageDialog(null,"Changed Succesfully!");
             //put a confirmation pop up
             newUsernameAdmin.setText("");
             Authen.saveAccount();
@@ -666,6 +673,7 @@ public class AdminFrame implements ActionListener{
             Security.renameFile(Authen.account_dir + old_cashier_fp + ".txt", Authen.account_dir + new_cashier_fp + ".txt");
 
             //System.out.println("bagong key: "+Security.getSecretKey());
+            JOptionPane.showMessageDialog(null,"Changed Succesfully!");
 
             newUsernameAdmin.setText("");
             Authen.saveAccount();

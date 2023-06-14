@@ -22,9 +22,9 @@ class Main {
         DataManager.retrieve();
         DataManager.delExpiredProduct();
 
-        adminframe.admin();
+        //adminframe.admin();
         //Cashierframe.cashier();
-/*
+
                 switch(loginFrame.login()){
                     case 0: break;
                     case 1: //Cashier.cashier();
@@ -39,7 +39,6 @@ class Main {
                              console.nextLine();
                 }
 
- */
 
     }
 
