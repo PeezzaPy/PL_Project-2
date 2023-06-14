@@ -143,6 +143,7 @@ public class  cashierFrame implements ActionListener, KeyListener {
             System.out.println("Punch");  //trial
         }
         else if(e.getSource()==addProduct){
+            DataManager.save();
             double pprice = 0;
             //add to customer receipt
             System.out.println("adding..");
@@ -200,9 +201,11 @@ public class  cashierFrame implements ActionListener, KeyListener {
                 customerReceipt.quantity = qty;
 
                 product.name = customerReceipt.productName;
+                inventoryPos = Main.locateProduct(product);
                 if(inventoryPos == -1){
                     System.out.println("\n\nPRODUCT DOES NOT EXIST\n\n");
                     Main.console.nextLine();
+                    //ADD JOPTION PANE
                 }
                 else {
                     customerReceipt.price = Main.my_inv[inventoryPos].retail_price;
@@ -227,16 +230,20 @@ public class  cashierFrame implements ActionListener, KeyListener {
                     Main.my_inv[inventoryPos].profit += Main.my_inv[inventoryPos].retail_price * customerReceipt.quantity;
 
                     //next product
-
+                        /*
                         resibo.totalPrice=(resibo.quantity * Main.my_inv[position].retail_price);
                         double pp = resibo.totalPrice;
-                        price.setText(String.valueOf(pp));
+
+                         */
+                        price.setText(String.valueOf(customerReceipt.totalPrice));
                         price.setBounds(250,300,300,50);
                         price.setFont(new Font("Montserrat", Font.BOLD,26));
                         punchPanel.add(price);
+
+
                         punchPanel.revalidate();
                         punchPanel.repaint();
-                        System.out.println(pp);
+                        //System.out.println(pp);
 
                 }
             }

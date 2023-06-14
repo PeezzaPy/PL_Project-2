@@ -253,13 +253,7 @@ public class DataManager {
             }
             reader.close();
 
-            for(Inventory item : Main.my_inv){
-                if(item != null){
-                System.out.println("\n" + item.name);
-                System.out.println(item.sales_qty);
-                }
-            }
-            Main.console.nextLine();
+
         } catch(IOException e){
         }
     }
