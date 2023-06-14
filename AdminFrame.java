@@ -22,7 +22,7 @@ public class AdminFrame implements ActionListener{
     JPanel addProductPanel = new JPanel();
     JPanel displayProductPanel = new JPanel();
     JPanel settingsPanel = new JPanel();
-    String[] choices = {"Category 1", "Category 2", "Category 3"};
+    String[] choices = {"Choose Category","Canned Goods", "Dairy", "Drink", "Fruit", "Junk Food","Sweet","Vegetable"};
     JComboBox<String> categ;
     JTextField productName = new JTextField();
     JTextField origPrice = new JTextField();
@@ -122,8 +122,64 @@ public class AdminFrame implements ActionListener{
         addProductButton.setBounds(275,480,150,50);
 
 
+
+
+
+
+
         //display panel
         displayProductPanel.setBackground(Color.green);
+        displayProductPanel.setLayout(null);
+        Object[][] data = new Object[100][11];
+                // {{"Category","Product name", "Date/time",
+                //"Expiration date","Original Price","Quantity",
+                //"Total amount","Retail Price","Sales Quantity",
+                //"Total sales amount", "Profit"}};
+
+
+        String[] columnNames = {"Category","Product name", "Date/time",
+                                "Expiration date","Original Price","Quantity",
+                                "Total amount","Retail Price","Sales Quantity",
+                                "Total sales amount", "Profit"};
+        for(int i=0; i<=Main.marker;i++){
+            //int temp =0;
+            //data[row][column]
+            //for(int j=0;j<10;i++){
+                data[i][0]= Main.my_inv[i].category;
+                data[i][1]= Main.my_inv[i].name;
+                data[i][2]= Main.my_inv[i].date;
+                data[i][3]= Main.my_inv[i].exp_date;
+                data[i][4]= Main.my_inv[i].orig_price;
+                data[i][5]= Main.my_inv[i].qty;
+                data[i][6]= Main.my_inv[i].total_price;
+                data[i][7]= Main.my_inv[i].retail_price;
+                data[i][8]= Main.my_inv[i].sales_qty;
+                data[i][9]= Main.my_inv[i].total_sales_amount;
+                data[i][10]= Main.my_inv[i].profit;
+            //temp++;
+
+            //data[][i]={
+            }
+
+
+
+
+        JTable table = new JTable(data, columnNames);
+        table.getTableHeader().setBounds(20,10,830,20);
+        table.setBounds(20,30,830,200);
+        table.setEnabled(false);
+
+        displayProductPanel.add(table.getTableHeader());
+        displayProductPanel.add(table);
+
+
+
+
+
+
+
+
+
 
 
         //settings panel
@@ -151,10 +207,12 @@ public class AdminFrame implements ActionListener{
         changePassword.setBackground(Color.lightGray);
         changePassword.setBounds(500,480,150,50);
 
+
         //change username button
         changeUsername.setLayout(null);
         changeUsername.setBackground(Color.lightGray);
         changeUsername.setBounds(200,480,150,50);
+
 
         //confirm button
         changeConfirm.setLayout(null);
@@ -295,6 +353,8 @@ public class AdminFrame implements ActionListener{
         }
         else if(e.getSource()==displayButton){
             cardLayout.show(cardsPanel,"displayProduct");
+            displayProductPanel.revalidate();
+            displayProductPanel.repaint();
         }
         else if(e.getSource()==settingsButton){
             cardLayout.show(cardsPanel,"settings");
@@ -343,11 +403,13 @@ public class AdminFrame implements ActionListener{
 
         }
         else if(e.getSource()==cancelChange){
-
+            /*
             settingsAdminPanel.validate();
             settingsAdminPanel.repaint();
             settingsCashierPanel.validate();
             settingsCashierPanel.repaint();
+             */
+
             cardLayout.show(cardsPanel,"settings");
         }
     }
