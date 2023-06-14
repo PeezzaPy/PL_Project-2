@@ -451,6 +451,7 @@ public class AdminFrame implements ActionListener{
         frame.setSize(1080,720);
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
+        frame.setResizable(false);
 
     }
 

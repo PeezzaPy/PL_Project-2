@@ -32,6 +32,8 @@ public class  cashierFrame implements ActionListener, KeyListener {
     Inventory product = new Inventory(); //bago
     Receipt customerReceipt = new Receipt();
     int inventoryPos, receiptPos;
+    static int totalMax = -1;
+    static Receipt[] totalReceipt = new Receipt[Main.MAX_INV];
 
 
     public void cashier() {
@@ -140,24 +142,25 @@ public class  cashierFrame implements ActionListener, KeyListener {
         frame.setSize(1080,720);
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
+        frame.setResizable(false);
 
 
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource()==punchButton){
-            cardLayout.show(cardsPanel,"punch");
+        if (e.getSource() == punchButton) {
+            cardLayout.show(cardsPanel, "punch");
             System.out.println("Punch");  //trial
         }
-        else if(e.getSource()==addProduct){
+        else if (e.getSource() == addProduct) {
             DataManager.save();
             double pprice = 0;
             //add to customer receipt
             System.out.println("adding..");
             addToReceipt(resibo);
-            String nn = Main.customerReceipt[0].productName; //trial
-            System.out.println(nn);
+            //String nn = Main.customerReceipt[0].productName; //trial
+            //System.out.println(nn);
 
             //punchPanel.removeAll();
             //buttonPanel.removeAll();
@@ -169,12 +172,12 @@ public class  cashierFrame implements ActionListener, KeyListener {
             productQuantity.setText("");
             price.setText("");
 
-            for (int i = 0; i<receiptMarker; i++){
+            for (int i = 0; i < receiptMarker; i++) {
 
-                p1[i].setText(Main.customerReceipt[i].productName + "     " + Main.customerReceipt[i].quantity + "      " +  Main.customerReceipt[i].price + "  " + Main.customerReceipt[i].totalPrice );
+                p1[i].setText(Main.customerReceipt[i].productName + "     " + Main.customerReceipt[i].quantity + "      " + Main.customerReceipt[i].price + "  " + Main.customerReceipt[i].totalPrice);
 
-                int y = (i+1)*20;
-                p1[i].setBounds(650,70+y,200,30);
+                int y = (i + 1) * 20;
+                p1[i].setBounds(650, 70 + y, 200, 30);
                 p1[i].setLayout(null);
 
                 pprice = pprice + Main.customerReceipt[i].totalPrice;
@@ -185,14 +188,39 @@ public class  cashierFrame implements ActionListener, KeyListener {
                 receipt.setBackground(Color.lightGray);
             }
         }
-        else if(e.getSource()==logoutButton){
+        else if (e.getSource() == logoutButton) {
+
             frame.dispose();
+            Main.main(null);
         }
+        else if (e.getSource() == newCustomerButton) {
 
-        else if (e.getSource()==newCustomerButton){
+            if (totalMax > -1) {
+                for (int i = 0; i <= totalMax; i++) {
+                    DataManager.recordSales(totalReceipt[i]);
+                }
+                DataManager.save();
+            }
+            for(int i=0; i<=receiptMarker; i++){
 
+                Main.customerReceipt[i] = null;
+
+                p1[i].setText(" " + "     " + "" + "      " + "" + "  " + "");
+
+                int y = (i + 1) * 20;
+                p1[i].setBounds(650, 70 + y, 200, 30);
+                p1[i].setLayout(null);
+
+
+
+                totalPrice.setText("TOTAL: ");
+            }
+            receiptMarker=-1;
+
+            punchPanel.revalidate();
+            punchPanel.repaint();
+            cardLayout.show(cardsPanel,"empty");
         }
-
     }
 
     @Override
@@ -241,12 +269,11 @@ public class  cashierFrame implements ActionListener, KeyListener {
                     Main.my_inv[inventoryPos].total_sales_amount += Main.my_inv[inventoryPos].retail_price * customerReceipt.quantity;
                     Main.my_inv[inventoryPos].profit += Main.my_inv[inventoryPos].retail_price * customerReceipt.quantity;
 
-                    //next product
-                        /*
-                        resibo.totalPrice=(resibo.quantity * Main.my_inv[position].retail_price);
-                        double pp = resibo.totalPrice;
+                    if(!customerReceipt.productName.equalsIgnoreCase("N/a")){
+                        totalMax++;
+                        totalReceipt[totalMax] = customerReceipt;
+                    }
 
-                         */
                         price.setText(String.valueOf(customerReceipt.totalPrice));
                         price.setBounds(250,300,300,50);
                         price.setFont(new Font("Montserrat", Font.BOLD,26));

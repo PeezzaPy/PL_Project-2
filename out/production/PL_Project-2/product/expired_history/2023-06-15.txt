@@ -1,0 +1,8 @@
+Product Name: KANG KONG
+Quantity: 11
+Profit Loss: 143.0
+
+Product Name: MALUNGGAY
+Quantity: 3
+Profit Loss: 30.0
+

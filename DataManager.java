@@ -161,6 +161,7 @@ public class DataManager {
 
 
     public static void recordProduct(Inventory product){
+
         Inventory[] my_product = new Inventory[Category.category.length];
         boolean isExist = false;
         ctr = -1;

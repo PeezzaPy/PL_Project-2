@@ -67,7 +67,7 @@ public class loginFrame {
 
         loginButton.setBounds(300,370,100,40);
         loginButton.setFocusable(false);
-        loginButton.setBorder(BorderFactory.createEmptyBorder());
+        loginButton.setLayout(null);
         loginButton.setFont(new Font("Montserrat Extra Bold",Font.BOLD,18));
         //loginButton.addActionListener(this);
         
@@ -135,6 +135,8 @@ public class loginFrame {
                     if(e.getSource() == loginButton) {
                         uname = userField.getText();
                         pass = String.valueOf(passField.getPassword());
+                        frame.revalidate();
+                        frame.revalidate();
                         frame.dispose();
                     }
                     

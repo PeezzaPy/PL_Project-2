@@ -1,0 +1,6 @@
+Product Name: RED HORSE
+Quantity: 3
+
+Product Name: TUNA
+Quantity: 10
+
