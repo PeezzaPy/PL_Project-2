@@ -27,7 +27,10 @@ public class  cashierFrame implements ActionListener, KeyListener {
     JLabel totalPrice = new JLabel("TOTAL: ");
     Receipt resibo = new Receipt();
     int position;
-    public static int mark = 0;
+    public static int receiptMarker = -1;
+    Inventory product = new Inventory(); //bago
+    Receipt customerReceipt = new Receipt();
+    int inventoryPos, receiptPos;
 
 
     public void cashier() {
@@ -157,15 +160,14 @@ public class  cashierFrame implements ActionListener, KeyListener {
             productQuantity.setText("");
             price.setText("");
 
-            for (int i =0; i<mark; i++){
+            for (int i = 0; i<receiptMarker; i++){
 
                 p1[i].setText(Main.customerReceipt[i].productName + "     " + Main.customerReceipt[i].quantity + "      " +  Main.customerReceipt[i].price + "  " + Main.customerReceipt[i].totalPrice );
 
                 int y = (i+1)*20;
                 p1[i].setBounds(650,70+y,200,30);
                 p1[i].setLayout(null);
-                //System.out.println("printing..");
-                //receipt.add(p1, JLayeredPane.DRAG_LAYER);
+             
                 pprice = pprice + Main.customerReceipt[i].totalPrice;
 
                 totalPrice.setText("TOTAL: " + pprice);
@@ -188,55 +190,45 @@ public class  cashierFrame implements ActionListener, KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode()==KeyEvent.VK_ENTER){
-            if(productName==null){
-                int qty = Integer.parseInt(productQuantity.getText());
-                System.out.println(qty);
-            }
-            else if (productQuantity==null){
-                String name = productName.getText();
-                System.out.println(name);
-            }
-            else if (productQuantity!=null && productName!=null){
+
                 String name = productName.getText();
                 System.out.println(name);
                 int qty = Integer.parseInt(productQuantity.getText());
                 System.out.println(qty);
+
                 resibo.productName=name.toUpperCase();
                 resibo.quantity = qty;
 
-                //locate the product
-                position = Main.locateProduct(resibo);
-
-                //if it exists, minus the quantity, else invalid punch
-                if(position == -1){ //doesnt exist put warning
-                    System.out.println("Product does not exist/out of stock");
+                product.name = customerReceipt.productName;
+                if(inventoryPos == -1){
+                    System.out.println("\n\nPRODUCT DOES NOT EXIST\n\n");
+                    Main.console.nextLine();
                 }
-                else{
-        /*
-                    if(mark >= 0 && resibo.productName.equals(Main.customerReceipt[position].productName)){
-                        Main.customerReceipt[position].quantity++;
-                        Main.customerReceipt[position].totalPrice=(Main.customerReceipt[position].quantity* Main.my_inv[position].retail_price);
-                        Main.my_inv[position].qty -= resibo.quantity;
+                else {
+                    customerReceipt.price = Main.my_inv[inventoryPos].retail_price;
+                    customerReceipt.totalPrice = customerReceipt.quantity * customerReceipt.price;
 
-
-                        resibo.totalPrice=(resibo.quantity * Main.my_inv[position].retail_price);
-                        double pp = resibo.totalPrice;
-                        price.setText(String.valueOf(pp));
-                        price.setBounds(250,300,300,50);
-                        price.setFont(new Font("Montserrat", Font.BOLD,26));
-                        punchPanel.add(price);
-                        punchPanel.revalidate();
-                        punchPanel.repaint();
-                        System.out.println(pp);
+                    if(Main.customerReceipt[0] == null){
+                        addToReceipt(customerReceipt);
                     }
-                    else{*/
+                    else {
+                        receiptPos = Main.locateProduct(customerReceipt);
+                        if(receiptPos == -1)
+                            addToReceipt(customerReceipt);
+                        else {
+                            Main.customerReceipt[receiptPos].quantity += customerReceipt.quantity;
+                            Main.customerReceipt[receiptPos].totalPrice += customerReceipt.totalPrice;
+                        }
+                    }
+                    Main.my_inv[inventoryPos].qty -= customerReceipt.quantity;
+                    Main.my_inv[inventoryPos].sales_qty += customerReceipt.quantity;
+                    Main.my_inv[inventoryPos].total_price = Main.my_inv[inventoryPos].qty * Main.my_inv[inventoryPos].orig_price;
+                    Main.my_inv[inventoryPos].total_sales_amount += Main.my_inv[inventoryPos].retail_price * customerReceipt.quantity;
+                    Main.my_inv[inventoryPos].profit += Main.my_inv[inventoryPos].retail_price * customerReceipt.quantity;
 
+                    //next product
 
-                        //calculate the total price then save to resibo.totalPrice
                         resibo.totalPrice=(resibo.quantity * Main.my_inv[position].retail_price);
-                        resibo.price=Main.my_inv[position].retail_price;
-                        Main.my_inv[position].qty -= resibo.quantity;
-
                         double pp = resibo.totalPrice;
                         price.setText(String.valueOf(pp));
                         price.setBounds(250,300,300,50);
@@ -251,7 +243,7 @@ public class  cashierFrame implements ActionListener, KeyListener {
 
         }
 
-    }
+
 
     @Override
     public void keyReleased(KeyEvent e) {
@@ -259,8 +251,9 @@ public class  cashierFrame implements ActionListener, KeyListener {
     }
 
     static void addToReceipt(Receipt resibo) {
-        Main.customerReceipt[mark] = new Receipt(resibo.productName, resibo.quantity, resibo.price, resibo.totalPrice);
-        mark++;
+        receiptMarker++;
+        Main.customerReceipt[receiptMarker] = new Receipt(resibo.productName, resibo.quantity, resibo.price, resibo.totalPrice);
+
 
     }
 }

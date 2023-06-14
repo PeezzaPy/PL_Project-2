@@ -3,11 +3,11 @@ import java.util.Scanner;
 
 public class Cashier {
     static Scanner console = new Scanner(System.in);
-    public static int receiptMarker;
+    public static int receiptMarker;  //bago
 
     static void cashier() {
         Main.validInput = false;
-        receiptMarker = -1;
+        receiptMarker = -1; //bago
 
         do {
             do {
@@ -37,7 +37,7 @@ public class Cashier {
 
 
     static void punch(){
-        Inventory product = new Inventory();
+        Inventory product = new Inventory(); //bago
         Receipt receipt = new Receipt();
         int inventoryPos, receiptPos;
 
