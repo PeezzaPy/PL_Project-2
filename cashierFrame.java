@@ -25,6 +25,7 @@ public class  cashierFrame implements ActionListener, KeyListener {
     JLabel price = new JLabel("");
     JLabel[] p1 = new JLabel[10];
     JLabel totalPrice = new JLabel("TOTAL: ");
+    JButton newCustomerButton = new JButton("New Customer");
     Receipt resibo = new Receipt();
     int position;
     public static int receiptMarker = -1;
@@ -86,6 +87,11 @@ public class  cashierFrame implements ActionListener, KeyListener {
         productQuantity.addKeyListener(this);
 
 
+        newCustomerButton.setLayout(null);
+        newCustomerButton.setBackground(Color.darkGray);
+        newCustomerButton.setBounds(280,530,100,50);
+
+
 
 
 
@@ -107,6 +113,7 @@ public class  cashierFrame implements ActionListener, KeyListener {
         punchPanel.add(productPrice);
 
         punchPanel.add(addProduct);
+        punchPanel.add(newCustomerButton);
 
 
         cardsPanel.setLayout(cardLayout);
@@ -118,6 +125,7 @@ public class  cashierFrame implements ActionListener, KeyListener {
         logoutButton.addActionListener(this);
         punchButton.addActionListener(this);
         addProduct.addActionListener(this);
+        newCustomerButton.addActionListener(this);
 
         logoutButton.setBackground(Color.lightGray);
         punchButton.setBackground(Color.lightGray);
@@ -179,6 +187,10 @@ public class  cashierFrame implements ActionListener, KeyListener {
         }
         else if(e.getSource()==logoutButton){
             frame.dispose();
+        }
+
+        else if (e.getSource()==newCustomerButton){
+
         }
 
     }

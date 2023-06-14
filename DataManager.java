@@ -12,6 +12,7 @@ public class DataManager {
     final static String productHistory_dir = "E:\\java\\latest\\PL_Project-2\\product\\product_history\\";
     final static String expProductHistory_dir = "E:\\java\\latest\\PL_Project-2\\product\\expired_history\\";
     final static String expDateProduct_dir = "E:\\java\\latest\\PL_Project-2\\product\\expiration_date_product\\";
+    final static String salesHistory_dir = "E:\\java\\latest\\PL_Project-2\\product\\sales_history\\";
     static String data_line, time = "";
     static int colonIndex, ctr;
 
@@ -220,6 +221,70 @@ public class DataManager {
         recordExpirationDateProduct(product);
     }
 
+    public static void recordSales(Receipt sales){                                  // NADAGDAG NA BAGONG FUNCTION FOR SALES HISTORY
+        Receipt[] productSales = new Receipt[Category.category.length];
+        LocalDate currentDate = LocalDate.now();
+        String dateString = currentDate.toString();
+        boolean isExist = false;
+        ctr = -1;
+
+        File sales_fp = new File (salesHistory_dir + dateString + ".txt");
+        try {
+            if(!sales_fp.exists())
+                sales_fp.createNewFile();
+        } catch (Exception e){
+        }
+
+        try(BufferedReader reader = new BufferedReader(new FileReader(sales_fp))){
+            while((data_line = reader.readLine()) != null){
+                ctr++;
+                productSales[ctr] = new Receipt();      // initialize first
+
+                colonIndex = data_line.indexOf(":");
+                productSales[ctr].productName = data_line.substring(colonIndex + 1).trim();
+
+                data_line = reader.readLine();
+                colonIndex = data_line.indexOf(":");
+                productSales[ctr].quantity = Integer.parseInt(data_line.substring(colonIndex + 1).trim());
+
+                data_line = reader.readLine();
+                colonIndex = data_line.indexOf(":");
+                productSales[ctr].price = Double.parseDouble(data_line.substring(colonIndex + 1).trim());
+
+                data_line = reader.readLine();
+                colonIndex = data_line.indexOf(":");
+                productSales[ctr].totalPrice = Double.parseDouble(data_line.substring(colonIndex + 1).trim());
+
+                reader.readLine();
+
+                if(productSales[ctr].productName.equalsIgnoreCase(sales.productName)){
+                    productSales[ctr].quantity += sales.quantity;
+                    isExist = true;
+                }
+            }
+            if(isExist == false){
+                productSales[++ctr] = sales;
+                productSales = sort(productSales);
+            }
+
+            eraseContentFile(sales_fp);
+
+            try(FileWriter writer = new FileWriter(sales_fp, true)){
+                for(Receipt item : productSales){
+                    if(item != null){
+                        writer.write("Product Name: " + item.productName + '\n');
+                        writer.write("Quantity: " + String.valueOf(item.quantity) + '\n');
+                        writer.write("Price: " + String.valueOf(item.price) + '\n');
+                        writer.write("Total Price: " + String.valueOf(item.quantity * item.price) + "\n\n");
+                    }
+                }
+                writer.close();
+            } catch (Exception e) {
+            }
+        } catch (Exception e){
+        }
+    }
+
 
     public static void retrieve(){
         Inventory my_product = new Inventory();
@@ -322,6 +387,25 @@ public class DataManager {
                     return -1;
                 } else {
                     return p1.name.compareToIgnoreCase(p2.name);
+                }
+            }
+        });
+
+        return productSort;
+    }
+
+    public static Receipt[] sort(Receipt[] productSort){                            // NADAGDAG NA SORT METHOD OVERLOADING FOR RECEIPT
+        // sorting alphabetically by product name
+        Arrays.sort(productSort, new Comparator<Receipt>(){
+            public int compare(Receipt p1, Receipt p2){
+                if(p1 == null && p2 == null){
+                    return 0;
+                } else if (p1 == null) {
+                    return 1;
+                } else if (p2 == null) {
+                    return -1;
+                } else {
+                    return p1.productName.compareToIgnoreCase(p2.productName);
                 }
             }
         });

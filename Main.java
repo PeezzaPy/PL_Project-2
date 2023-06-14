@@ -21,9 +21,9 @@ class Main {
         Authen.retrieveAccount();
         DataManager.retrieve();
         DataManager.delExpiredProduct();
-        adminframe.admin();
-        //Cashierframe.cashier();
-            /*
+        //adminframe.admin();
+        Cashierframe.cashier();
+
                 switch(loginFrame.login()){
                     case 0: break;
                     case 1: //Cashier.cashier();
@@ -36,7 +36,7 @@ class Main {
                     default: backToLogin = true;
                              System.out.println("\n\nINVALID USERNAME/PASSWORD \n");
                              console.nextLine();
-                }*/
+                }
 
 
     }

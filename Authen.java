@@ -73,6 +73,7 @@ public class Authen {
     public static void saveAccount(){      
         admin_fp = Security.encrypt(Security.getAdminFileName(), Security.getSecretKey());
         cashier_fp = Security.encrypt(Security.getCashierFileName(), Security.getSecretKey());
+        System.out.println("dito nako sa loob");
 
         /*System.out.println(admin_fp + '\n' + cashier_fp);
         console.nextLine();
@@ -106,8 +107,10 @@ public class Authen {
         }*/
 
         try (FileWriter writer = new FileWriter(account_dir + cashier_fp + ".txt")){
+            System.out.println(" sa loob ito :" + Main.cashierAcc.getUsername());
             if(Main.cashierAcc.getName() != "N/A"){
-                ename = Security.encrypt(Main.cashierAcc.getName(), Security.getSecretKey());
+
+                //ename = Security.encrypt(Main.cashierAcc.getName(), Security.getSecretKey());
                 eusern = Security.encrypt(Main.cashierAcc.getUsername(), Security.getSecretKey()); 
                 epass = Security.encrypt(Main.cashierAcc.getPassword(), Security.getSecretKey()); 
                 writer.write(ename + '\n');
@@ -129,7 +132,7 @@ public class Authen {
         try(BufferedReader reader = new BufferedReader(new FileReader(account_dir + admin_fp + ".txt"))){
             while((data_line = reader.readLine()) != null){
                 if(data_line != "N/A"){
-                    ename = data_line;   
+                    ename = data_line;
                     eusern = reader.readLine();
                     epass = reader.readLine();
                     name = Security.decrypt(ename, Security.getSecretKey());
