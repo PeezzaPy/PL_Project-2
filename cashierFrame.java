@@ -47,6 +47,7 @@ public class  cashierFrame implements ActionListener, KeyListener {
         buttonPanel.setBorder(new EmptyBorder(5,25,5,25));
         buttonPanel.setLayout(new GridLayout(10,1,2,10));
         buttonPanel.setPreferredSize(new Dimension(150,0));
+        buttonPanel.setBackground(Color.decode("#4267B2"));
 
         buttonPanel.add(Box.createRigidArea(null));
         buttonPanel.add(Box.createRigidArea(null));
@@ -56,7 +57,7 @@ public class  cashierFrame implements ActionListener, KeyListener {
 
 
 
-        receipt.setBackground(Color.yellow);
+        receipt.setBackground(Color.lightGray);
         receipt.setLayout(null);
         receipt.setBounds(600,30,300,620);
 
@@ -83,21 +84,21 @@ public class  cashierFrame implements ActionListener, KeyListener {
         totalPrice.setFont(new Font("Montserrat", Font.BOLD,26));
         totalPrice.setLayout(null);
 
-        addProduct.setBounds(300,400,70,50);
+        addProduct.setBounds(265,400,70,50);
 
         productName.addKeyListener(this);
         productQuantity.addKeyListener(this);
 
 
         newCustomerButton.setLayout(null);
-        newCustomerButton.setBackground(Color.darkGray);
-        newCustomerButton.setBounds(280,530,100,50);
+        newCustomerButton.setBackground(Color.lightGray);
+        newCustomerButton.setBounds(230,530,150,50);
 
 
 
 
 
-        punchPanel.setBackground(Color.red);
+        punchPanel.setBackground(Color.decode("#4267B2"));
         punchPanel.setBounds(50,50,500,500); //try to remove
         punchPanel.setLayout(null);
         punchPanel.setVisible(true);
@@ -129,8 +130,10 @@ public class  cashierFrame implements ActionListener, KeyListener {
         addProduct.addActionListener(this);
         newCustomerButton.addActionListener(this);
 
-        logoutButton.setBackground(Color.lightGray);
-        punchButton.setBackground(Color.lightGray);
+        logoutButton.setBackground(Color.decode("#4267B2"));
+        punchButton.setBackground(Color.decode("#4267B2"));
+        logoutButton.setFocusable(false);
+        punchButton.setFocusable(false);
 
         frame.add(header);
         frame.add(buttonPanel, BorderLayout.WEST);

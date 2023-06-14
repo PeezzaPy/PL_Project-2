@@ -87,6 +87,7 @@ public class AdminFrame implements ActionListener{
         buttonPanel.setBorder(new EmptyBorder(5,25,5,25));
         buttonPanel.setLayout(new GridLayout(10,1,2,10));
         buttonPanel.setPreferredSize(new Dimension(200,0));
+        buttonPanel.setBackground(Color.decode("#4267B2"));
 
         buttonPanel.add(Box.createRigidArea(null));
         buttonPanel.add(Box.createRigidArea(null));
@@ -130,7 +131,7 @@ public class AdminFrame implements ActionListener{
 
 
         //addProductPanel
-        addProductPanel.setBackground(Color.red);
+        addProductPanel.setBackground(Color.decode("#4267B2"));
         addProductPanel.setLayout(null);
         categ = new JComboBox<String>(choices);
         categ.setBounds(250,150,200,40);
@@ -158,7 +159,7 @@ public class AdminFrame implements ActionListener{
 
 
         //display panel
-        displayProductPanel.setBackground(Color.green);
+        displayProductPanel.setBackground(Color.decode("#4267B2"));
         displayProductPanel.setLayout(null);
 
         String[] columnNames = {"Category","Product name", "Date/time",
@@ -169,25 +170,24 @@ public class AdminFrame implements ActionListener{
         refreshDisplayData();
 
         JTable table = new JTable(data, columnNames);
-        table.getTableHeader().setBounds(20,10,830,20);
-        table.setBounds(20,30,830,200);
-        table.setEnabled(false);
 
-        displayProductPanel.add(table.getTableHeader());
-        displayProductPanel.add(table);
+        JScrollPane scp = new JScrollPane(table);
+        scp.setBounds(20,250,830,200);
 
+        //table.getTableHeader().setBounds(20,230,830,20);
+        //table.setBounds(20,250,830,200);
+        //table.setEnabled(false);
 
+        displayProductPanel.add(scp);
 
-
-
-
-
+        //displayProductPanel.add(table.getTableHeader());
+        //displayProductPanel.add(table);
 
 
 
 
         //settings panel
-        settingsPanel.setBackground(Color.blue);
+        settingsPanel.setBackground(Color.decode("#4267B2"));
         settingsPanel.setLayout(null);
         settingsPanel.add(settingsCashier);
         settingsPanel.add(settingsAdmin);
@@ -219,54 +219,54 @@ public class AdminFrame implements ActionListener{
 
         //change password button
         changePasswordAdmin.setLayout(null);
-        changePasswordAdmin.setBackground(Color.yellow);
+        changePasswordAdmin.setBackground(Color.lightGray);
         changePasswordAdmin.setBounds(500,480,150,50);
 
 
         //change username button
         changeUsernameAdmin.setLayout(null);
-        changeUsernameAdmin.setBackground(Color.yellow);
+        changeUsernameAdmin.setBackground(Color.lightGray);
         changeUsernameAdmin.setBounds(200,480,150,50);
 
         //confirm button in username cashier panel
         changeConfirmAdminUsernamePanel.setLayout(null);
-        changeConfirmAdminUsernamePanel.setBackground(Color.darkGray);
+        changeConfirmAdminUsernamePanel.setBackground(Color.lightGray);
         changeConfirmAdminUsernamePanel.setBounds(350,480,150,50);
 
         //confirm button in password cashier panel
         changeConfirmAdminPasswordPanel.setLayout(null);
-        changeConfirmAdminPasswordPanel.setBackground(Color.darkGray);
+        changeConfirmAdminPasswordPanel.setBackground(Color.lightGray);
         changeConfirmAdminPasswordPanel.setBounds(350,480,150,50);
 
 
 
         //confirm button in username cashier panel
         changeConfirmCashierUsernamePanel.setLayout(null);
-        changeConfirmCashierUsernamePanel.setBackground(Color.darkGray);
+        changeConfirmCashierUsernamePanel.setBackground(Color.lightGray);
         changeConfirmCashierUsernamePanel.setBounds(350,480,150,50);
 
         //confirm button in password cashier panel
         changeConfirmCashierPasswordPanel.setLayout(null);
-        changeConfirmCashierPasswordPanel.setBackground(Color.darkGray);
+        changeConfirmCashierPasswordPanel.setBackground(Color.lightGray);
         changeConfirmCashierPasswordPanel.setBounds(350,480,150,50);
 
 
         //back button
         cancelChangeCashierPasswordPanel.setLayout(null);
-        cancelChangeCashierPasswordPanel.setBackground(Color.darkGray);
+        cancelChangeCashierPasswordPanel.setBackground(Color.lightGray);
         cancelChangeCashierPasswordPanel.setBounds(350,530,150,50);
 
         cancelChangeCashierUsernamePanel.setLayout(null);
-        cancelChangeCashierUsernamePanel.setBackground(Color.darkGray);
+        cancelChangeCashierUsernamePanel.setBackground(Color.lightGray);
         cancelChangeCashierUsernamePanel.setBounds(350,530,150,50);
 
         //back button
         cancelChangeAdminPasswordPanel.setLayout(null);
-        cancelChangeAdminPasswordPanel.setBackground(Color.darkGray);
+        cancelChangeAdminPasswordPanel.setBackground(Color.lightGray);
         cancelChangeAdminPasswordPanel.setBounds(350,530,150,50);
 
         cancelChangeAdminUsernamePanel.setLayout(null);
-        cancelChangeAdminUsernamePanel.setBackground(Color.darkGray);
+        cancelChangeAdminUsernamePanel.setBackground(Color.lightGray);
         cancelChangeAdminUsernamePanel.setBounds(350,530,150,50);
 
 
@@ -315,7 +315,7 @@ public class AdminFrame implements ActionListener{
 
         //admin settings panel
         settingsAdminPanel.setLayout(null);
-        settingsAdminPanel.setBackground(Color.darkGray);
+        settingsAdminPanel.setBackground(Color.decode("#4267B2"));
         settingsAdminPanel.add(changeUsernameAdmin);
         settingsAdminPanel.add(changePasswordAdmin);
         //settingsAdminPanel.add(changeConfirm);
@@ -323,7 +323,7 @@ public class AdminFrame implements ActionListener{
 
         //cashier settings panel
         settingsCashierPanel.setLayout(null);
-        settingsCashierPanel.setBackground(Color.lightGray);
+        settingsCashierPanel.setBackground(Color.decode("#4267B2"));
         settingsCashierPanel.add(changeUsernameCashier);
         settingsCashierPanel.add(changePasswordCashier);
 
@@ -334,7 +334,7 @@ public class AdminFrame implements ActionListener{
 
         //encryption key settings panel
         settingsKeyPanel.setLayout(null);
-        settingsKeyPanel.setBackground(Color.PINK);
+        settingsKeyPanel.setBackground(Color.decode("#4267B2"));
         settingsKeyPanel.add(cancelChangeEncryptionPanel);
         settingsKeyPanel.add(changeConfirmEncryptionPanel);
         settingsKeyPanel.add(enterNewKey);
@@ -351,11 +351,11 @@ public class AdminFrame implements ActionListener{
 
         //encryption key panel button config
         cancelChangeEncryptionPanel.setLayout(null);
-        cancelChangeEncryptionPanel.setBackground(Color.darkGray);
+        cancelChangeEncryptionPanel.setBackground(Color.lightGray);
         cancelChangeEncryptionPanel.setBounds(350,530,150,50);
 
         changeConfirmEncryptionPanel.setLayout(null);
-        changeConfirmEncryptionPanel.setBackground(Color.darkGray);
+        changeConfirmEncryptionPanel.setBackground(Color.lightGray);
         changeConfirmEncryptionPanel.setBounds(350,480,150,50);
 
 
@@ -363,7 +363,7 @@ public class AdminFrame implements ActionListener{
 
         //change password panel cashier
         changePasswordCashierPanel.setLayout(null);
-        changePasswordCashierPanel.setBackground(Color.yellow);
+        changePasswordCashierPanel.setBackground(Color.decode("#4267B2"));
         changePasswordCashierPanel.add(enterNewPasswordCashier);
         changePasswordCashierPanel.add(newPasswordCashier);
         changePasswordCashierPanel.add(changeConfirmCashierPasswordPanel);
@@ -372,7 +372,7 @@ public class AdminFrame implements ActionListener{
 
         //change username panel cashier
         changeUsernameCashierPanel.setLayout(null);
-        changeUsernameCashierPanel.setBackground(Color.white);
+        changeUsernameCashierPanel.setBackground(Color.decode("#4267B2"));
         changeUsernameCashierPanel.add(enterNewUsernameCashier);
         changeUsernameCashierPanel.add(newUsernameCashier);
         changeUsernameCashierPanel.add(changeConfirmCashierUsernamePanel);
@@ -380,7 +380,7 @@ public class AdminFrame implements ActionListener{
 
         //change password panel admin
         changePasswordAdminPanel.setLayout(null);
-        changePasswordAdminPanel.setBackground(Color.magenta);
+        changePasswordAdminPanel.setBackground(Color.decode("#4267B2"));
         changePasswordAdminPanel.add(enterNewPasswordAdmin);
         changePasswordAdminPanel.add(newPasswordAdmin);
         changePasswordAdminPanel.add(changeConfirmAdminPasswordPanel);
@@ -389,7 +389,7 @@ public class AdminFrame implements ActionListener{
 
         //change username panel admin
         changeUsernameAdminPanel.setLayout(null);
-        changeUsernameAdminPanel.setBackground(Color.pink);
+        changeUsernameAdminPanel.setBackground(Color.decode("#4267B2"));
         changeUsernameAdminPanel.add(enterNewUsernameAdmin);
         changeUsernameAdminPanel.add(newUsernameAdmin);
         changeUsernameAdminPanel.add(changeConfirmAdminUsernamePanel);
@@ -447,6 +447,7 @@ public class AdminFrame implements ActionListener{
         frame.add(cardsPanel,BorderLayout.CENTER);
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setBackground(Color.decode("#4267B2"));
         frame.setTitle("Admin");
         frame.setSize(1080,720);
         frame.setVisible(true);
@@ -484,9 +485,8 @@ public class AdminFrame implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==logoutButton){
 
-            //loginFrame.login();
             frame.dispose();
-            //.main(null);
+            Main.main(null);
         }
         else if(e.getSource()==addButton){
             cardLayout.show(cardsPanel,"addProduct");

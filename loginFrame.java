@@ -135,6 +135,8 @@ public class loginFrame {
                     if(e.getSource() == loginButton) {
                         uname = userField.getText();
                         pass = String.valueOf(passField.getPassword());
+                        loginButton.revalidate();
+                        loginButton.repaint();
                         frame.revalidate();
                         frame.revalidate();
                         frame.dispose();
